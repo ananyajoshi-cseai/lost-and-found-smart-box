@@ -10,9 +10,9 @@ A simulation-first college prototype using explicit facts, rules, ontology BFS a
 | Aashi Srivastava | HTML/CSS/JS, acceptance tests and documentation | `frontend/aashi` |
 
 ## Current checkpoint
-Implemented: virtual environment, `/health`, five-table schema, device authentication, idempotent events, staff pending events, parser, ontology/BFS, heuristic ranking and database-backed search. Automated tests exercise these components.
+Implemented: virtual environment, `/health`, five-table schema, device authentication, idempotent events, staff pending events, parser, ontology/BFS, heuristic ranking database-backed search, item registration, sanitized JPEG storage and public item views. Automated tests exercise these components.
 
-Not yet implemented: item registration/photos/public item reads, claims and decisions, frontend and real Wokwi circuit. Their contracts and issues are prepared. Do not present this checkpoint as a complete product or a passed hardware gate.
+Not yet implemented: claims and decisions, frontend and real Wokwi circuit. Their contracts and issues are prepared. Do not present this checkpoint as a complete product or a passed hardware gate.
 
 Start with [Ananya's walkthrough](docs/start-here-ananya.md), then [backend commands](backend/README.md). See [API contract](docs/contracts.md), [AI decisions](docs/ai-decisions.md), and [contribution workflow](CONTRIBUTING.md).
 
@@ -28,7 +28,7 @@ Start with [Ananya's walkthrough](docs/start-here-ananya.md), then [backend comm
 1. Start the local backend using `backend/README.md`.
 2. Anika implements the handbook page 8 trigger in Wokwi and saves a serial event.
 3. Replay the same JSON twice; expect 201 then 200 and only one pending event.
-4. Once B04 is complete, register one item and find it through search.
+4. Register one item using /docs and find it through search (see docs/b04-walkthrough.md).
 5. Buy parts only after the handbook's simulation gate passes. Wokwi networking to laptop localhost is not assumed.
 
 The 39-page handbook dated 18 October 2026 is the source of truth. See `docs/source-of-truth.md` for provenance and specification gaps. The repository name differs from its example by explicit team-lead choice.

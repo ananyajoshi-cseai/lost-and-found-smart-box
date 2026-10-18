@@ -28,8 +28,10 @@ Open http://127.0.0.1:8000/health: expect `{"status":"ok"}`. Explore http://127.
 .\.venv\Scripts\python.exe -c "from app.ai.engine import parse; print(parse('navy Milton flask'))"
 ```
 
-Tests set their own disposable credentials and use temporary databases. They do not modify your demo database. `/api/search` returns no matches until items exist; registration is the next task. Do not manually put real lost-property records in tests.
+Tests set their own disposable credentials and use temporary databases. They do not modify your demo database. `/api/search` returns no matches until items exist; register an item through `/docs` using the B04 walkthrough. Do not manually put real lost-property records in tests.
 
 Transport errors: 401 = credential problem, 422 = invalid request, 409 = reused ID with different payload. See the full contracts and examples in `../docs/contracts.md`.
 
 References: https://fastapi.tiangolo.com/tutorial/testing/ and https://docs.python.org/3/library/sqlite3.html .
+
+Registration exercise: [B04 walkthrough](../docs/b04-walkthrough.md). `UPLOAD_DIR` optionally overrides the private photo directory. Stop the server before a read-only storage audit with `.\.venv\Scripts\python.exe -m app.services.images`.
