@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from .auth import validate_configuration
 from .database import initialize
+from .ui import configure_ui
 from .routers import events, search, items, claims, admin
 
 
@@ -21,6 +22,7 @@ app.include_router(search.router)
 app.include_router(items.router)
 app.include_router(claims.router)
 app.include_router(admin.router)
+configure_ui(app)
 
 
 @app.get("/health")

@@ -12,7 +12,7 @@ A simulation-first college prototype using explicit facts, rules, ontology BFS a
 ## Current checkpoint
 Implemented: virtual environment, `/health`, five-table schema, device authentication, idempotent events, staff pending events, parser, ontology/BFS, heuristic ranking database-backed search, item registration, sanitized JPEG storage public item views, complete search cards a reproducible synthetic evaluation runner, public claim submission and staff-only atomic decisions with audit. Automated tests exercise these components.
 
-Not yet implemented: frontend, full team integration/recovery work and real Wokwi circuit. Their contracts and issues are prepared. Do not present this checkpoint as a complete product or a passed hardware gate.
+B07 backend integration is implemented: `/ui` hosting, restricted optional local CORS, tested replay-to-return HTTP flow, and offline database-plus-photo recovery. Not yet implemented: the frontend and real Wokwi circuit; full team acceptance remains open. Their contracts and issues are prepared. Do not present this checkpoint as a complete product or a passed hardware gate.
 
 Start with [Ananya's walkthrough](docs/start-here-ananya.md), then [backend commands](backend/README.md). See [API contract](docs/contracts.md), [AI decisions](docs/ai-decisions.md), and [contribution workflow](CONTRIBUTING.md).
 
@@ -36,3 +36,5 @@ The 39-page handbook dated 18 October 2026 is the source of truth. See `docs/sou
 For B05, follow [search and evaluation walkthrough](docs/b05-walkthrough.md). The evaluation uses temporary data and keeps every query result, including failures.
 
 For B06, use the [claim-and-decision walkthrough](docs/b06-walkthrough.md). Public claims stay pending until staff verifies ownership; a match score never approves a return.
+
+For B07, follow the [integration and recovery walkthrough](docs/b07-walkthrough.md). The backend suite has 86 passing tests; actual frontend and Wokwi acceptance are still pending.
