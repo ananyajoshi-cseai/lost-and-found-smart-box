@@ -12,7 +12,8 @@ else:
     labels = {i['id']:f'#{i["id"]} · {i["color"]} {i["category"]} · {i["location"]}' for i in items}
     with st.form('return'):
         item_id = st.selectbox('Item', list(labels), format_func=labels.get, key='return_id')
-        st.write(next(i for i in items if i['id']==item_id))
+        selected = next(i for i in items if i['id']==item_id)
+        st.text('Brand: ' + (selected['brand'] or 'Not supplied') + ' | Mark: ' + (selected['mark'] or 'Not supplied'))
         confirmed = st.checkbox('I have independently verified the return', key='confirmed')
         submit = st.form_submit_button('Mark returned')
     if submit:

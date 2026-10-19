@@ -27,7 +27,7 @@ if st.button('Find matches', key='search'):
             item = next(i for i in items if i['id']==result['id'])
             with st.container(border=True):
                 st.subheader(f'Item #{item["id"]} · {item["color"].title()} {item["category"]}')
-                st.write({key:item[key] for key in ['brand','location','mark']})
+                st.text('Brand: ' + (item['brand'] or 'Not supplied') + ' | Found at: ' + item['location'] + ' | Mark: ' + (item['mark'] or 'Not supplied'))
                 st.write(f'Score: {result["score"]:.2f} / 100 · {result["coverage_text"]}')
                 st.caption('Text agreement, not ownership probability.')
                 st.write('Related suggestion, different category' if result['related'] else 'Candidate match')
