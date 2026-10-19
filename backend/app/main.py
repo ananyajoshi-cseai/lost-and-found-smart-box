@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from .auth import validate_configuration
 from .database import initialize
-from .routers import events, search, items
+from .routers import events, search, items, claims, admin
 
 
 @asynccontextmanager
@@ -19,6 +19,8 @@ app = FastAPI(title="Smart Box", version="0.1.0", lifespan=lifespan)
 app.include_router(events.router)
 app.include_router(search.router)
 app.include_router(items.router)
+app.include_router(claims.router)
+app.include_router(admin.router)
 
 
 @app.get("/health")
