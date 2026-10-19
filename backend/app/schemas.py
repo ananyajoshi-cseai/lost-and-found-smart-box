@@ -12,3 +12,41 @@ class EventIn(BaseModel):
 class SearchIn(BaseModel):
     query: str = Field(min_length=1, max_length=300)
     broaden: bool = False
+
+
+class ParsedQuery(BaseModel):
+    positive: dict[str, str]
+    excluded: dict[str, list[str]]
+    ambiguous: list[str]
+
+
+class ScoreReason(BaseModel):
+    field: str
+    weight: int
+    points: int
+    matched: bool
+
+
+class SearchResult(BaseModel):
+    id: int
+    score: float
+    coverage: int
+    denominator: int
+    reasons: list[ScoreReason]
+    strong_candidate: bool
+    related: bool
+    category: str
+    color: str
+    brand: str | None
+    location: str
+    mark: str | None
+    photo_url: str
+    coverage_text: str
+    match_label: str
+
+
+class SearchOut(BaseModel):
+    parsed: ParsedQuery
+    results: list[SearchResult]
+    clarification: str | None
+    message: str | None

@@ -1,0 +1,173 @@
+[
+  {
+    "id": "q01",
+    "query": "navy Milton flask",
+    "relevant_ids": [
+      101,
+      109
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Synonyms; two blue Milton bottles are plausible."
+  },
+  {
+    "id": "q02",
+    "query": "blue milton bottle library star",
+    "relevant_ids": [
+      101
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Public star distinguishes the near duplicate; claimed 117 is excluded."
+  },
+  {
+    "id": "q03",
+    "query": "blue cello bottle canteen stripe",
+    "relevant_ids": [
+      102
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "All five supplied facts."
+  },
+  {
+    "id": "q04",
+    "query": "red milton bottle library",
+    "relevant_ids": [
+      103
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Brand distinguishes red bottles."
+  },
+  {
+    "id": "q05",
+    "query": "black notebook library star",
+    "relevant_ids": [
+      104
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Public mark distinguishes two black notebooks."
+  },
+  {
+    "id": "q06",
+    "query": "black keys library",
+    "relevant_ids": [
+      106
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Exact category and color."
+  },
+  {
+    "id": "q07",
+    "query": "black charger canteen",
+    "relevant_ids": [
+      107
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Exact category and color."
+  },
+  {
+    "id": "q08",
+    "query": "blue earphones library",
+    "relevant_ids": [
+      108
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Exact category and color."
+  },
+  {
+    "id": "q09",
+    "query": "red notebook canteen stripe",
+    "relevant_ids": [
+      111
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Exact known vocabulary."
+  },
+  {
+    "id": "q10",
+    "query": "blue pen library",
+    "relevant_ids": [
+      112
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "Exact category and color."
+  },
+  {
+    "id": "q11",
+    "query": "bottle not blue",
+    "relevant_ids": [
+      103,
+      110,
+      120
+    ],
+    "kind": "positive",
+    "broaden": false,
+    "rationale": "All non-blue available bottles are relevant."
+  },
+  {
+    "id": "q12",
+    "query": "umbrella blue milton library star",
+    "relevant_ids": [
+      101
+    ],
+    "kind": "positive",
+    "broaden": true,
+    "rationale": "Broad suggestions explicitly requested; no available umbrella. 101 is a justified related suggestion, never an umbrella match."
+  },
+  {
+    "id": "q13",
+    "query": "green wallet",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "No wallet category exists; unsupported vocabulary should require clarification."
+  },
+  {
+    "id": "q14",
+    "query": "purple bottle",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "No purple bottle exists. Unknown color may be ignored: retain this failure if returned."
+  },
+  {
+    "id": "q15",
+    "query": "bottle not blue not red not black",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "All registered bottle colors excluded."
+  },
+  {
+    "id": "q16",
+    "query": "notebook not black not red",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "All notebook colors excluded."
+  },
+  {
+    "id": "q17",
+    "query": "umbrella",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "Only umbrella is claimed; broadening disabled."
+  },
+  {
+    "id": "q18",
+    "query": "red blue bottle",
+    "relevant_ids": [],
+    "kind": "negative",
+    "broaden": false,
+    "rationale": "Conflicting color requires clarification rather than ranking."
+  }
+]

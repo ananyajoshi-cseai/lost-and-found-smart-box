@@ -121,7 +121,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SearchOut"
+                }
               }
             }
           },
@@ -431,6 +433,69 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "ParsedQuery": {
+        "properties": {
+          "positive": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Positive"
+          },
+          "excluded": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Excluded"
+          },
+          "ambiguous": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Ambiguous"
+          }
+        },
+        "type": "object",
+        "required": [
+          "positive",
+          "excluded",
+          "ambiguous"
+        ],
+        "title": "ParsedQuery"
+      },
+      "ScoreReason": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight"
+          },
+          "points": {
+            "type": "integer",
+            "title": "Points"
+          },
+          "matched": {
+            "type": "boolean",
+            "title": "Matched"
+          }
+        },
+        "type": "object",
+        "required": [
+          "field",
+          "weight",
+          "points",
+          "matched"
+        ],
+        "title": "ScoreReason"
+      },
       "SearchIn": {
         "properties": {
           "query": {
@@ -450,6 +515,150 @@
           "query"
         ],
         "title": "SearchIn"
+      },
+      "SearchOut": {
+        "properties": {
+          "parsed": {
+            "$ref": "#/components/schemas/ParsedQuery"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "clarification": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clarification"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "parsed",
+          "results",
+          "clarification",
+          "message"
+        ],
+        "title": "SearchOut"
+      },
+      "SearchResult": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "coverage": {
+            "type": "integer",
+            "title": "Coverage"
+          },
+          "denominator": {
+            "type": "integer",
+            "title": "Denominator"
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreReason"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "strong_candidate": {
+            "type": "boolean",
+            "title": "Strong Candidate"
+          },
+          "related": {
+            "type": "boolean",
+            "title": "Related"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "mark": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mark"
+          },
+          "photo_url": {
+            "type": "string",
+            "title": "Photo Url"
+          },
+          "coverage_text": {
+            "type": "string",
+            "title": "Coverage Text"
+          },
+          "match_label": {
+            "type": "string",
+            "title": "Match Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "score",
+          "coverage",
+          "denominator",
+          "reasons",
+          "strong_candidate",
+          "related",
+          "category",
+          "color",
+          "brand",
+          "location",
+          "mark",
+          "photo_url",
+          "coverage_text",
+          "match_label"
+        ],
+        "title": "SearchResult"
       },
       "ValidationError": {
         "properties": {
