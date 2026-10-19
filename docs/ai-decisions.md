@@ -13,3 +13,10 @@ Parser limits: English ASCII, punctuation boundaries, longest phrase first, imme
 Implementation choices where companion files were absent: parsed object keys positive/excluded/ambiguous; deterministic sorted exclusion lists; response keys score/coverage/denominator/reasons/strong_candidate/related. Initial vocabulary is restricted to handbook examples. Expand values/aliases with tests and record rationale here. Unrounded score determines inclusion; returned score rounds to 2 decimals.
 
 Unit tests are algorithm checks, not retrieval accuracy. A separate held-out evaluation set (10 positive, 5 negative queries; 15-20 items) and 100-item latency benchmark remain B05/B08 tasks. Do not report invented accuracy.
+
+## B05 evaluation freeze
+The v1 fixtures contain 20 items and 18 separately labelled queries (12 positive, 6 negative). They were authored with knowledge of the existing design but not used to tune it. They are a reproducible synthetic check, not an independent blind benchmark. No vocabulary, weight, threshold or broadening changes were made for B05.
+
+The evaluation invokes POST /api/search with only query/broaden. Intended IDs stay in the evaluator. Top-1 and Top-3 count successful positive queries once each; empty output is a miss. Negative false-positive rate counts negative queries returning any candidate. Zero denominators produce null. Per-query responses retain unrelated cards even when the query gets a relevant hit.
+
+The 100-item speed test uses available copies of the fixture facts with unique IDs. It times the full in-process TestClient request with perf_counter, including database access and response validation; it excludes startup, warm-up, network/browser and photo retrieval. Median, nearest-rank p95, maximum and every sample are recorded. It measures a synthetic local workload, not deployed or multi-user performance.

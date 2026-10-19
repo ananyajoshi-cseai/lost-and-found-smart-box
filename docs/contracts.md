@@ -21,7 +21,7 @@ Source: handbook pages 20-22; exact extracted text in handbook-api-reference.txt
 
 Event example: {"event_id":"box01-synthetic-1","device_id":"box01","kind":"deposit"}. Response includes these fields plus server created_at and duplicate boolean. That flat envelope is a project choice; the handbook specifies statuses and duplicate but not a full envelope.
 
-Parsed example: {"positive":{"category":"bottle","color":"blue"},"excluded":{},"ambiguous":[]}. Result contains id, score, coverage (out of 5), denominator, reasons [{field,weight,points,matched}], strong_candidate and related. These exact envelope/inner keys fill specification gaps; they do not replace handbook requirements. Search currently returns ranked IDs and explanations; safe attributes and photo_url are available via GET /api/items/{id}; search card enrichment is a B05 follow-up.
+Parsed example: {"positive":{"category":"bottle","color":"blue"},"excluded":{},"ambiguous":[]}. Result contains id, score, coverage (out of 5), denominator, reasons [{field,weight,points,matched}], strong_candidate and related. These exact envelope/inner keys fill specification gaps; they do not replace handbook requirements. Search currently returns ranked IDs and explanations; safe attributes and photo_url are also included directly in each search result (B05).
 
 ## Required follow-up routes (not implemented)
 | Route | Required contract |
@@ -43,3 +43,10 @@ Public item detail/list fields are id, category, color, brand (nullable), locati
 Registration trims fields and accepts canonical vocabulary strings only (for example bottle/blue, not flask/navy aliases). Empty optional fields become absent/NULL. private_mark is free text capped at 500 characters. Wrong/missing event: 404; duplicate event: 409; corrupt/unsupported image: 422; >5 MiB or >12 MP: 413. Decoded file format controls acceptance, not the supplied MIME header or filename. Photos use UUID JPEG names and no-store responses. Generic storage/database failures return 500; details stay in server logs. Failed database writes roll back attributes and item together and remove the newly written image.
 
 UPLOAD_DIR overrides the default backend/uploads directory. Stop the server before running the read-only orphan audit: python -m app.services.images. It reports unreferenced files and missing referenced files; inspect and back up before manual repair. A crash between filesystem write and database commit can leave an orphan; no automatic deletion races with live registrations.
+
+## B05 search card additions
+Existing query/broaden input, parsed facts, results, clarification and score fields are unchanged. Each result now adds category, color, brand (nullable), location, mark (nullable), photo_url, coverage_text (for example "3 of 5 attributes supplied") and match_label. Related matches explicitly say "Related suggestion, different category"; other matches say "Candidate match". Public fields are allowlisted in both SQL and the typed response model. No private mark, contact, evidence, event ID or filesystem path enters a card.
+
+The response envelope adds message: null with results; a clarification message for ambiguous/unknown queries; a no-match message for an eligible search with no results. Aashi should display parsed chips, message, coverage_text and match_label, render untrusted strings via textContent, and resolve photo_url against the API origin. The browser does not recompute scores. Photos may later return 404 if an item becomes unavailable.
+
+The full search response is described in docs/openapi.json and /openapi.json. A score of 100 for a single supplied field means complete agreement on that one field, never ownership probability. Unknown words remain ignored according to the handbook parser; the evaluation reports false positives this can cause.
