@@ -304,6 +304,210 @@
         }
       }
     },
+    "/api/claims": {
+      "post": {
+        "summary": "Submit Claim",
+        "operationId": "submit_claim_api_claims_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimReceipt"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/claims": {
+      "get": {
+        "summary": "List Claims",
+        "operationId": "list_claims_api_admin_claims_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "pending",
+                    "approved",
+                    "rejected"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffClaimsOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/claims/{claim_id}/approve": {
+      "post": {
+        "summary": "Approve",
+        "operationId": "approve_api_admin_claims__claim_id__approve_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "claim_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Claim Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/claims/{claim_id}/reject": {
+      "post": {
+        "summary": "Reject",
+        "operationId": "reject_api_admin_claims__claim_id__reject_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "claim_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Claim Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RejectionOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "summary": "Health",
@@ -323,6 +527,63 @@
   },
   "components": {
     "schemas": {
+      "ApprovalOut": {
+        "properties": {
+          "claim_id": {
+            "type": "integer",
+            "title": "Claim Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "approved",
+            "title": "Status"
+          },
+          "item_status": {
+            "type": "string",
+            "const": "claimed",
+            "title": "Item Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claim_id",
+          "status",
+          "item_status"
+        ],
+        "title": "ApprovalOut"
+      },
+      "AuditEntry": {
+        "properties": {
+          "actor": {
+            "type": "string",
+            "title": "Actor"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected"
+            ],
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "actor",
+          "action",
+          "reason",
+          "created_at"
+        ],
+        "title": "AuditEntry"
+      },
       "Body_create_item_api_items_post": {
         "properties": {
           "event_id": {
@@ -389,6 +650,70 @@
           "photo"
         ],
         "title": "Body_create_item_api_items_post"
+      },
+      "ClaimIn": {
+        "properties": {
+          "item_id": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Item Id"
+          },
+          "contact": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Contact"
+          },
+          "evidence": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "item_id",
+          "contact",
+          "evidence"
+        ],
+        "title": "ClaimIn"
+      },
+      "ClaimReceipt": {
+        "properties": {
+          "claim_id": {
+            "type": "integer",
+            "title": "Claim Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "pending",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claim_id",
+          "status"
+        ],
+        "title": "ClaimReceipt"
+      },
+      "DecisionIn": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "title": "DecisionIn"
       },
       "EventIn": {
         "properties": {
@@ -467,6 +792,25 @@
           "ambiguous"
         ],
         "title": "ParsedQuery"
+      },
+      "RejectionOut": {
+        "properties": {
+          "claim_id": {
+            "type": "integer",
+            "title": "Claim Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "rejected",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claim_id",
+          "status"
+        ],
+        "title": "RejectionOut"
       },
       "ScoreReason": {
         "properties": {
@@ -659,6 +1003,94 @@
           "match_label"
         ],
         "title": "SearchResult"
+      },
+      "StaffClaim": {
+        "properties": {
+          "claim_id": {
+            "type": "integer",
+            "title": "Claim Id"
+          },
+          "item_id": {
+            "type": "integer",
+            "title": "Item Id"
+          },
+          "contact": {
+            "type": "string",
+            "title": "Contact"
+          },
+          "evidence": {
+            "type": "string",
+            "title": "Evidence"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "rejected"
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "item_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "claimed"
+            ],
+            "title": "Item Status"
+          },
+          "private_mark": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Private Mark"
+          },
+          "audit": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "type": "array",
+            "title": "Audit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claim_id",
+          "item_id",
+          "contact",
+          "evidence",
+          "status",
+          "created_at",
+          "item_status",
+          "private_mark",
+          "audit"
+        ],
+        "title": "StaffClaim"
+      },
+      "StaffClaimsOut": {
+        "properties": {
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/StaffClaim"
+            },
+            "type": "array",
+            "title": "Claims"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claims"
+        ],
+        "title": "StaffClaimsOut"
       },
       "ValidationError": {
         "properties": {

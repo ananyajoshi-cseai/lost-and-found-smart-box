@@ -23,7 +23,7 @@ Event example: {"event_id":"box01-synthetic-1","device_id":"box01","kind":"depos
 
 Parsed example: {"positive":{"category":"bottle","color":"blue"},"excluded":{},"ambiguous":[]}. Result contains id, score, coverage (out of 5), denominator, reasons [{field,weight,points,matched}], strong_candidate and related. These exact envelope/inner keys fill specification gaps; they do not replace handbook requirements. Search currently returns ranked IDs and explanations; safe attributes and photo_url are also included directly in each search result (B05).
 
-## Required follow-up routes (not implemented)
+## Implemented B06 claim and administration routes
 | Route | Required contract |
 |---|---|
 | POST /api/claims | Public {item_id,contact,evidence}; 201 {claim_id,status:"pending"}; 409 unavailable |
@@ -33,9 +33,9 @@ Parsed example: {"positive":{"category":"bottle","color":"blue"},"excluded":{},"
 
 Contact cap 120, evidence/reason/notes cap 500; trim fields. Canonical registration values match vocabulary. JPEG/PNG only, 5 MiB maximum, decoded pixel limit (12 MP chosen), UUID path outside public static directory, re-encode to RGB JPEG and remove metadata. Cleanup newly written image after failed insert. No private mark/contact/evidence in public responses.
 
-Future staff routes use the same HTTP Basic dependency; missing configuration rejects startup. Device key is separate. Remote deployment needs HTTPS; current default is loopback only. Future frontend mount /ui; no CORS needed for same-origin. If split development needs CORS, allow explicit localhost:5500 and 127.0.0.1:5500 only.
+All staff routes use the same HTTP Basic dependency; missing configuration rejects startup. Device key is separate. Remote deployment needs HTTPS; current default is loopback only. Future frontend mount /ui; no CORS needed for same-origin. If split development needs CORS, allow explicit localhost:5500 and 127.0.0.1:5500 only.
 
-Anika handoff: same event ID on retry, X-Device-Key, 201/200 success, 401/409 stop and inspect. Aashi handoff: server owns scoring; display parsed facts, clarification, coverage and related labels. Inspect /openapi.json for implemented routes. Registration is implemented; claim contracts remain reserved.
+Anika handoff: same event ID on retry, X-Device-Key, 201/200 success, 401/409 stop and inspect. Aashi handoff: server owns scoring; display parsed facts, clarification, coverage and related labels. Inspect /openapi.json for implemented routes. Registration and claim routes are implemented.
 
 ## B04 envelope and error decisions
 Public item detail/list fields are id, category, color, brand (nullable), location, status, created_at, mark (nullable), photo_url. Public responses exclude event_id, stored photo_path and all private attributes. Available items only: claimed detail and photo return 404. Listing is ordered by ascending ID, default limit=20, and next_offset is non-null only when another row exists. These choices fill gaps allowed by the handbook.
@@ -50,3 +50,14 @@ Existing query/broaden input, parsed facts, results, clarification and score fie
 The response envelope adds message: null with results; a clarification message for ambiguous/unknown queries; a no-match message for an eligible search with no results. Aashi should display parsed chips, message, coverage_text and match_label, render untrusted strings via textContent, and resolve photo_url against the API origin. The browser does not recompute scores. Photos may later return 404 if an item becomes unavailable.
 
 The full search response is described in docs/openapi.json and /openapi.json. A score of 100 for a single supplied field means complete agreement on that one field, never ownership probability. Unknown words remain ignored according to the handbook parser; the evaluation reports false positives this can cause.
+
+## B06 decisions and staff-only envelope
+POST /api/claims accepts only item_id/contact/evidence. item_id is a positive JSON integer; contact/evidence are trimmed, nonempty strings capped at 120/500 characters. Extra fields (including status or actor) are rejected with 422. Unknown item: 404; unavailable item: 409. Receipt is exactly {claim_id,status:"pending"}. Multiple pending claims for an available item are allowed; submissions are not ownership proof or idempotent requests.
+
+GET /api/admin/claims returns {claims:[...]}, ordered by claim_id ascending; omitted status returns all, otherwise pending/approved/rejected only. Staff entries contain claim_id, item_id, contact, evidence, status, created_at, item_status, private_mark (nullable), and audit. Each audit entry contains actor/action/reason/created_at. private_mark is included only here to let staff compare hidden details. This documented envelope fills the handbook's unspecified admin response shape. Staff response and decision/receipt responses use Cache-Control: no-store. This list is intended for the small supervised demo, not a paginated production inbox.
+
+Approve returns exactly {claim_id,status:"approved",item_status:"claimed"}. Reject returns {claim_id,status:"rejected"}. Both require HTTP Basic and a trimmed, nonempty reason <=500 characters. Client-supplied actor/status are forbidden; actor comes from authenticated staff. Missing credentials: 401 with Basic challenge; unknown positive claim ID: 404; decided claim or competing approval: 409. Invalid nonpositive claim ID: 422. No reset/reopen endpoint is provided.
+
+Submission and decisions use BEGIN IMMEDIATE transactions. Approval conditionally changes an available item to claimed, updates the claim and appends audit together; rejection changes only claim/audit. Any failure rolls all writes back. A rejected claim cannot later be approved. Other pending claims stay pending after one approval; their item_status=claimed tells the UI they cannot win. Staff can explicitly reject these remaining claims, preserving the already-claimed item status. Private contact/evidence/mark/audit do not appear in public list/detail/search/photo routes.
+
+The no-ML scoring engine never approves claims. Staff must independently verify ownership; a QR reference or high score grants no approval permission. Rate limiting, institutional identity and retention automation remain deployment work before any service is exposed outside the supervised local demo; these have not been silently claimed implemented.
