@@ -35,3 +35,5 @@ Transport errors: 401 = credential problem, 422 = invalid request, 409 = reused 
 References: https://fastapi.tiangolo.com/tutorial/testing/ and https://docs.python.org/3/library/sqlite3.html .
 
 Registration exercise: [B04 walkthrough](../docs/b04-walkthrough.md). `UPLOAD_DIR` optionally overrides the private photo directory. Stop the server before a read-only storage audit with `.\.venv\Scripts\python.exe -m app.services.images`.
+
+B07: [integration and recovery walkthrough](../docs/b07-walkthrough.md) covers /ui/, optional CORS_ORIGINS and offline database/photo backup, verification and fresh-directory restore. Stop the server before backup. The suite includes an actual loopback HTTP test with temporary data.

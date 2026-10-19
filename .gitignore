@@ -11,3 +11,8 @@ secrets.h
 .idea/
 work/
 private-exports/
+
+backups/
+restores/
+manifest.json
+RESTORE_COMPLETE.json

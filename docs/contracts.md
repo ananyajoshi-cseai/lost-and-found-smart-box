@@ -33,7 +33,7 @@ Parsed example: {"positive":{"category":"bottle","color":"blue"},"excluded":{},"
 
 Contact cap 120, evidence/reason/notes cap 500; trim fields. Canonical registration values match vocabulary. JPEG/PNG only, 5 MiB maximum, decoded pixel limit (12 MP chosen), UUID path outside public static directory, re-encode to RGB JPEG and remove metadata. Cleanup newly written image after failed insert. No private mark/contact/evidence in public responses.
 
-All staff routes use the same HTTP Basic dependency; missing configuration rejects startup. Device key is separate. Remote deployment needs HTTPS; current default is loopback only. Future frontend mount /ui; no CORS needed for same-origin. If split development needs CORS, allow explicit localhost:5500 and 127.0.0.1:5500 only.
+All staff routes use the same HTTP Basic dependency; missing configuration rejects startup. Device key is separate. Remote deployment needs HTTPS; current default is loopback only. Frontend mount /ui is implemented (503 until index.html exists); no CORS needed for same-origin. If split development needs CORS, allow explicit localhost:5500 and 127.0.0.1:5500 only.
 
 Anika handoff: same event ID on retry, X-Device-Key, 201/200 success, 401/409 stop and inspect. Aashi handoff: server owns scoring; display parsed facts, clarification, coverage and related labels. Inspect /openapi.json for implemented routes. Registration and claim routes are implemented.
 
@@ -61,3 +61,7 @@ Approve returns exactly {claim_id,status:"approved",item_status:"claimed"}. Reje
 Submission and decisions use BEGIN IMMEDIATE transactions. Approval conditionally changes an available item to claimed, updates the claim and appends audit together; rejection changes only claim/audit. Any failure rolls all writes back. A rejected claim cannot later be approved. Other pending claims stay pending after one approval; their item_status=claimed tells the UI they cannot win. Staff can explicitly reject these remaining claims, preserving the already-claimed item status. Private contact/evidence/mark/audit do not appear in public list/detail/search/photo routes.
 
 The no-ML scoring engine never approves claims. Staff must independently verify ownership; a QR reference or high score grants no approval permission. Rate limiting, institutional identity and retention automation remain deployment work before any service is exposed outside the supervised local demo; these have not been silently claimed implemented.
+
+## B07 hosting and recovery
+
+Existing API envelopes are unchanged. /ui redirects to /ui/; only frontend/ is mounted. Optional CORS_ORIGINS accepts comma-separated http://localhost:5500 and http://127.0.0.1:5500 only, with GET/POST, Authorization/Content-Type and credential support. The default is no CORS middleware. Recovery is an offline CLI, not a public HTTP endpoint. See b07-walkthrough.md for tested behavior, safe restore commands and outstanding team acceptance.
