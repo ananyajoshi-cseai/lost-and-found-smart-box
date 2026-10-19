@@ -39,4 +39,4 @@ For B06, use the [claim-and-decision walkthrough](docs/b06-walkthrough.md). Publ
 
 For B07, follow the [integration and recovery walkthrough](docs/b07-walkthrough.md). The backend suite has 86 passing tests; actual frontend and Wokwi acceptance are still pending.
 
-For B08, use the [backend evidence and viva preparation](docs/b08-walkthrough.md). Report sections and handoff instructions are prepared; fresh local verification and final team acceptance remain pending.
+For B08, use the [backend evidence and viva preparation](docs/b08-walkthrough.md). Report sections, handoff instructions and fresh-install/test/evaluation evidence are prepared; final team acceptance remains pending.

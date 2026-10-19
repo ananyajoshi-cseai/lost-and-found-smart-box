@@ -12,7 +12,7 @@ Parser limits: English ASCII, punctuation boundaries, longest phrase first, imme
 
 Implementation choices where companion files were absent: parsed object keys positive/excluded/ambiguous; deterministic sorted exclusion lists; response keys score/coverage/denominator/reasons/strong_candidate/related. Initial vocabulary is restricted to handbook examples. Expand values/aliases with tests and record rationale here. Unrounded score determines inclusion; returned score rounds to 2 decimals.
 
-Unit tests are algorithm checks, not retrieval accuracy. The B05 synthetic-v1 evaluation and 100-item latency benchmark are recorded below; a final B08 rerun remains pending. Do not report invented accuracy.
+Unit tests are algorithm checks, not retrieval accuracy. The B05 synthetic-v1 evaluation and 100-item latency benchmark are recorded below; the unchanged B08 rerun is recorded in docs/test-results/b08-status.md. Do not report invented accuracy.
 
 ## B05 evaluation freeze
 The v1 fixtures contain 20 items and 18 separately labelled queries (12 positive, 6 negative). They were authored with knowledge of the existing design but not used to tune it. They are a reproducible synthetic check, not an independent blind benchmark. No vocabulary, weight, threshold or broadening changes were made for B05.
