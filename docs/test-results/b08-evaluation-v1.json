@@ -1,0 +1,2404 @@
+{
+  "dataset_version": "synthetic-v1",
+  "generated_at_utc": "2026-10-19T13:39:18.466819+00:00",
+  "git_commit": "ac8d9356f6ae6c7ed8955f4ea625b43f223581e0",
+  "working_tree_dirty": false,
+  "sha256": {
+    "tests/fixtures/items.json": "1a5bed57ef8f9fc49361caf870e8f1cea8da1c8bf1c868ecb658d8e86439c202",
+    "tests/fixtures/queries.json": "fdbe5548d4ac20d551c161fd921e5b61bc4e17dcafd57f17feff2aed7ead65b2",
+    "evaluation.py": "cd9e3ab1d3c8875a3e647108be26a0259dcb8bc9bd30792130ed05eacbef3b97",
+    "requirements.txt": "700e1480126c8d64a637291e9d0a0e48b84ee877465bbe9f5d33c448b6f7321c",
+    "app/__init__.py": "fd0d0ef18075097f16d437ad287cb715796047ed2259781c44a204ca7360b636",
+    "app/ai/__init__.py": "1a020d3d60e44e617138d6170f4f7abb2cc93dc84ccbc7d5ef37edd57717c772",
+    "app/ai/engine.py": "48d332e7f1f6f9886e5db5fe6b4da8b2d60c8e1b4c11a406f6e52349dc2d0c77",
+    "app/ai/ontology.py": "63bba5c49c1d5bee78792ce3b127e93b877e4ca0e164c6e7c9a2d971215da0ca",
+    "app/ai/parser.py": "4abc1e928d3ebbcaa66081b48a0e4dbc40535c12294ac795ed38fb85c6d34964",
+    "app/ai/scoring.py": "1218c2a4852173701aefe7d170f777a0b787c3c51ebb50f2625817a877728428",
+    "app/ai/vocabulary.py": "5e90595c67ea84ae7e746c2219f97eae9ef77b2e6ae338779bd2cd262b511d69",
+    "app/auth.py": "693f276e72fe767d130009171d2f080e4a8a22894646c0e6f7b670d9259e56cb",
+    "app/database.py": "4ad12cefe47586c24672d240a804a4328253a6994ea8789eaf901ed7ec9873bc",
+    "app/main.py": "d420948bc98abda495dfc8d4ac9bb677b54833d43b260d89c079e3dbd37494a7",
+    "app/recovery.py": "662fc80aec9706ae9669a89cd65d96d0b4127ce8e73286063fb8f2bb1f69a2e8",
+    "app/routers/__init__.py": "faf1bf87b63a3fa2be823d9649f2410120cc3a1509253127aeed80fea9aaeb8f",
+    "app/routers/admin.py": "19c2d0baa3fce6ed43fe746395669dfbf5039ce56049038b245c87cbbbc4b54f",
+    "app/routers/claims.py": "488ddafd1646f91af8e4d32a81cd214e0cdac116ba4e6b0fab628e9499cbc03b",
+    "app/routers/events.py": "df5a99274af560478e917bf499665ea206f11642188a36256e0b53d3e2694807",
+    "app/routers/items.py": "42f7332d58d06770c7fbdab6477b399c1d45227c293fb4f713ab411e1ecd675a",
+    "app/routers/search.py": "7a4f083c5cd666994a183dae74f2521bf3ee7068ce2727c61206133983297171",
+    "app/schemas.py": "6569cd91b88640c38402183bb807a5c2bca18d1ef9ad9d10bae39470fcad1843",
+    "app/services/claims.py": "b5316cb311d5e27a95230627034cf9998ea45bfb93f250a467eceaf0efb9d9a2",
+    "app/services/images.py": "689e5ddc0cdfc7b8c361c1f2d41c03a65d695a193ca4935ac8c5739a27e97831",
+    "app/ui.py": "3ea241bdfb2f95284e8322eb00f92a288bfb3027fd094533a9e8d3d99ecd5a64"
+  },
+  "machine": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.14",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "logical_cpus": 12
+  },
+  "item_count": 20,
+  "metrics": {
+    "positive_queries": 12,
+    "negative_queries": 6,
+    "top1_hits": 12,
+    "top3_hits": 12,
+    "negative_false_positives": 1,
+    "top1_accuracy": 1.0,
+    "top3_success": 1.0,
+    "negative_false_positive_rate": 0.16666666666666666
+  },
+  "query_runs": [
+    {
+      "id": "q01",
+      "query": "navy Milton flask",
+      "relevant_ids": [
+        101,
+        109
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Synonyms; two blue Milton bottles are plausible.",
+      "returned_ids": [
+        101,
+        109,
+        102
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 101,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 80,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 109,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 80,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/109/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 102,
+            "score": 81.25,
+            "coverage": 3,
+            "denominator": 80,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/102/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 16.260000003967434
+    },
+    {
+      "id": "q02",
+      "query": "blue milton bottle library star",
+      "relevant_ids": [
+        101
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Public star distinguishes the near duplicate; claimed 117 is excluded.",
+      "returned_ids": [
+        101,
+        109,
+        102
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 101,
+            "score": 100.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 109,
+            "score": 90.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/109/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 102,
+            "score": 65.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/102/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.645299970638007
+    },
+    {
+      "id": "q03",
+      "query": "blue cello bottle canteen stripe",
+      "relevant_ids": [
+        102
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "All five supplied facts.",
+      "returned_ids": [
+        102,
+        109,
+        101
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle",
+            "color": "blue",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "stripe"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 102,
+            "score": 100.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/102/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 109,
+            "score": 75.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/109/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 101,
+            "score": 65.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.021299992222339
+    },
+    {
+      "id": "q04",
+      "query": "red milton bottle library",
+      "relevant_ids": [
+        103
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Brand distinguishes red bottles.",
+      "returned_ids": [
+        103,
+        101,
+        109
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle",
+            "color": "red",
+            "brand": "milton",
+            "location": "library"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 103,
+            "score": 100.0,
+            "coverage": 4,
+            "denominator": 90,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": true,
+            "related": false,
+            "category": "bottle",
+            "color": "red",
+            "brand": "milton",
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/103/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 101,
+            "score": 72.22,
+            "coverage": 4,
+            "denominator": 90,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 109,
+            "score": 72.22,
+            "coverage": 4,
+            "denominator": 90,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/109/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 6.451499997638166
+    },
+    {
+      "id": "q05",
+      "query": "black notebook library star",
+      "relevant_ids": [
+        104
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Public mark distinguishes two black notebooks.",
+      "returned_ids": [
+        104,
+        118
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "notebook",
+            "color": "black",
+            "location": "library",
+            "mark": "star"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 104,
+            "score": 100.0,
+            "coverage": 4,
+            "denominator": 85,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "notebook",
+            "color": "black",
+            "brand": null,
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/104/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 118,
+            "score": 88.24,
+            "coverage": 4,
+            "denominator": 85,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "notebook",
+            "color": "black",
+            "brand": null,
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/118/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 6.5122999949380755
+    },
+    {
+      "id": "q06",
+      "query": "black keys library",
+      "relevant_ids": [
+        106
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Exact category and color.",
+      "returned_ids": [
+        106,
+        116
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "keys",
+            "color": "black",
+            "location": "library"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 106,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "keys",
+            "color": "black",
+            "brand": null,
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/106/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 116,
+            "score": 53.33,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "keys",
+            "color": "red",
+            "brand": null,
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/116/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.281099991407245
+    },
+    {
+      "id": "q07",
+      "query": "black charger canteen",
+      "relevant_ids": [
+        107
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Exact category and color.",
+      "returned_ids": [
+        107,
+        114
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "charger",
+            "color": "black",
+            "location": "canteen"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 107,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "charger",
+            "color": "black",
+            "brand": null,
+            "location": "canteen",
+            "mark": "none",
+            "photo_url": "/api/items/107/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 114,
+            "score": 53.33,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "charger",
+            "color": "red",
+            "brand": null,
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/114/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.166199989616871
+    },
+    {
+      "id": "q08",
+      "query": "blue earphones library",
+      "relevant_ids": [
+        108
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Exact category and color.",
+      "returned_ids": [
+        108,
+        115
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "earphones",
+            "color": "blue",
+            "location": "library"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 108,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "earphones",
+            "color": "blue",
+            "brand": null,
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/108/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 115,
+            "score": 53.33,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "earphones",
+            "color": "black",
+            "brand": null,
+            "location": "canteen",
+            "mark": "star",
+            "photo_url": "/api/items/115/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.144599999766797
+    },
+    {
+      "id": "q09",
+      "query": "red notebook canteen stripe",
+      "relevant_ids": [
+        111
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Exact known vocabulary.",
+      "returned_ids": [
+        111
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "notebook",
+            "color": "red",
+            "location": "canteen",
+            "mark": "stripe"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 111,
+            "score": 100.0,
+            "coverage": 4,
+            "denominator": 85,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "notebook",
+            "color": "red",
+            "brand": null,
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/111/photo",
+            "coverage_text": "4 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.4225000203587115
+    },
+    {
+      "id": "q10",
+      "query": "blue pen library",
+      "relevant_ids": [
+        112
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "Exact category and color.",
+      "returned_ids": [
+        112,
+        119,
+        113
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "pen",
+            "color": "blue",
+            "location": "library"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 112,
+            "score": 100.0,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "pen",
+            "color": "blue",
+            "brand": null,
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/112/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 119,
+            "score": 66.67,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "pen",
+            "color": "red",
+            "brand": null,
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/119/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 113,
+            "score": 53.33,
+            "coverage": 3,
+            "denominator": 75,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "pen",
+            "color": "black",
+            "brand": null,
+            "location": "canteen",
+            "mark": "star",
+            "photo_url": "/api/items/113/photo",
+            "coverage_text": "3 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 5.787900008726865
+    },
+    {
+      "id": "q11",
+      "query": "bottle not blue",
+      "relevant_ids": [
+        103,
+        110,
+        120
+      ],
+      "kind": "positive",
+      "broaden": false,
+      "rationale": "All non-blue available bottles are relevant.",
+      "returned_ids": [
+        103,
+        110,
+        120
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle"
+          },
+          "excluded": {
+            "color": [
+              "blue"
+            ]
+          },
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 103,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "red",
+            "brand": "milton",
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/103/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 110,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "black",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "none",
+            "photo_url": "/api/items/110/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 120,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "red",
+            "brand": null,
+            "location": "canteen",
+            "mark": "star",
+            "photo_url": "/api/items/120/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 7.13099999120459
+    },
+    {
+      "id": "q12",
+      "query": "umbrella blue milton library star",
+      "relevant_ids": [
+        101
+      ],
+      "kind": "positive",
+      "broaden": true,
+      "rationale": "Broad suggestions explicitly requested; no available umbrella. 101 is a justified related suggestion, never an umbrella match.",
+      "returned_ids": [
+        101,
+        109
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "umbrella",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 101,
+            "score": 60.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": true,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Related suggestion, different category"
+          },
+          {
+            "id": 109,
+            "score": 50.0,
+            "coverage": 5,
+            "denominator": 100,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 0,
+                "matched": false
+              },
+              {
+                "field": "color",
+                "weight": 25,
+                "points": 25,
+                "matched": true
+              },
+              {
+                "field": "brand",
+                "weight": 15,
+                "points": 15,
+                "matched": true
+              },
+              {
+                "field": "location",
+                "weight": 10,
+                "points": 10,
+                "matched": true
+              },
+              {
+                "field": "mark",
+                "weight": 10,
+                "points": 0,
+                "matched": false
+              }
+            ],
+            "strong_candidate": false,
+            "related": true,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "stripe",
+            "photo_url": "/api/items/109/photo",
+            "coverage_text": "5 of 5 attributes supplied",
+            "match_label": "Related suggestion, different category"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 6.630500021856278
+    },
+    {
+      "id": "q13",
+      "query": "green wallet",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "No wallet category exists; unsupported vocabulary should require clarification.",
+      "returned_ids": [],
+      "response": {
+        "parsed": {
+          "positive": {},
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [],
+        "clarification": "Please provide a known category, color, brand, location or public mark.",
+        "message": "Please provide a known category, color, brand, location or public mark."
+      },
+      "elapsed_ms": 3.2839999767020345
+    },
+    {
+      "id": "q14",
+      "query": "purple bottle",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "No purple bottle exists. Unknown color may be ignored: retain this failure if returned.",
+      "returned_ids": [
+        101,
+        102,
+        103
+      ],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [
+          {
+            "id": 101,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "milton",
+            "location": "library",
+            "mark": "star",
+            "photo_url": "/api/items/101/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 102,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "blue",
+            "brand": "cello",
+            "location": "canteen",
+            "mark": "stripe",
+            "photo_url": "/api/items/102/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          },
+          {
+            "id": 103,
+            "score": 100.0,
+            "coverage": 1,
+            "denominator": 40,
+            "reasons": [
+              {
+                "field": "category",
+                "weight": 40,
+                "points": 40,
+                "matched": true
+              }
+            ],
+            "strong_candidate": false,
+            "related": false,
+            "category": "bottle",
+            "color": "red",
+            "brand": "milton",
+            "location": "library",
+            "mark": "none",
+            "photo_url": "/api/items/103/photo",
+            "coverage_text": "1 of 5 attributes supplied",
+            "match_label": "Candidate match"
+          }
+        ],
+        "clarification": null,
+        "message": null
+      },
+      "elapsed_ms": 4.958599980454892
+    },
+    {
+      "id": "q15",
+      "query": "bottle not blue not red not black",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "All registered bottle colors excluded.",
+      "returned_ids": [],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle"
+          },
+          "excluded": {
+            "color": [
+              "black",
+              "blue",
+              "red"
+            ]
+          },
+          "ambiguous": []
+        },
+        "results": [],
+        "clarification": null,
+        "message": "No matching available items. Try different details or explicitly include related categories."
+      },
+      "elapsed_ms": 4.9303999985568225
+    },
+    {
+      "id": "q16",
+      "query": "notebook not black not red",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "All notebook colors excluded.",
+      "returned_ids": [],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "notebook"
+          },
+          "excluded": {
+            "color": [
+              "black",
+              "red"
+            ]
+          },
+          "ambiguous": []
+        },
+        "results": [],
+        "clarification": null,
+        "message": "No matching available items. Try different details or explicitly include related categories."
+      },
+      "elapsed_ms": 4.73230000352487
+    },
+    {
+      "id": "q17",
+      "query": "umbrella",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "Only umbrella is claimed; broadening disabled.",
+      "returned_ids": [],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "umbrella"
+          },
+          "excluded": {},
+          "ambiguous": []
+        },
+        "results": [],
+        "clarification": null,
+        "message": "No matching available items. Try different details or explicitly include related categories."
+      },
+      "elapsed_ms": 6.352800002787262
+    },
+    {
+      "id": "q18",
+      "query": "red blue bottle",
+      "relevant_ids": [],
+      "kind": "negative",
+      "broaden": false,
+      "rationale": "Conflicting color requires clarification rather than ranking.",
+      "returned_ids": [],
+      "response": {
+        "parsed": {
+          "positive": {
+            "category": "bottle"
+          },
+          "excluded": {},
+          "ambiguous": [
+            "color"
+          ]
+        },
+        "results": [],
+        "clarification": "Please clarify: color",
+        "message": "Please clarify: color"
+      },
+      "elapsed_ms": 3.1979000195860863
+    }
+  ],
+  "benchmark": {
+    "item_count": 100,
+    "available_count": 100,
+    "repeats": 10,
+    "method": "In-process FastAPI TestClient: request serialization, SQLite read, parse/rank, response validation. No browser/network/photo-download time; warm-up excluded; p95 nearest rank.",
+    "samples": 120,
+    "median_ms": 6.710050016408786,
+    "p95_ms": 8.654500008560717,
+    "max_ms": 14.493900001980364,
+    "all_samples_under_500_ms": true,
+    "timings": [
+      {
+        "repeat": 1,
+        "query_id": "q01",
+        "ms": 7.338199997320771
+      },
+      {
+        "repeat": 1,
+        "query_id": "q02",
+        "ms": 7.111000013537705
+      },
+      {
+        "repeat": 1,
+        "query_id": "q03",
+        "ms": 6.70730002457276
+      },
+      {
+        "repeat": 1,
+        "query_id": "q04",
+        "ms": 8.277299988549203
+      },
+      {
+        "repeat": 1,
+        "query_id": "q05",
+        "ms": 6.522999959997833
+      },
+      {
+        "repeat": 1,
+        "query_id": "q06",
+        "ms": 6.329199997708201
+      },
+      {
+        "repeat": 1,
+        "query_id": "q07",
+        "ms": 5.767600028775632
+      },
+      {
+        "repeat": 1,
+        "query_id": "q08",
+        "ms": 6.048099952749908
+      },
+      {
+        "repeat": 1,
+        "query_id": "q09",
+        "ms": 8.145100029651076
+      },
+      {
+        "repeat": 1,
+        "query_id": "q10",
+        "ms": 7.557899982202798
+      },
+      {
+        "repeat": 1,
+        "query_id": "q11",
+        "ms": 6.571199977770448
+      },
+      {
+        "repeat": 1,
+        "query_id": "q12",
+        "ms": 5.894300004001707
+      },
+      {
+        "repeat": 2,
+        "query_id": "q01",
+        "ms": 7.026900013443083
+      },
+      {
+        "repeat": 2,
+        "query_id": "q02",
+        "ms": 7.980099995620549
+      },
+      {
+        "repeat": 2,
+        "query_id": "q03",
+        "ms": 6.582000001799315
+      },
+      {
+        "repeat": 2,
+        "query_id": "q04",
+        "ms": 6.042999972123653
+      },
+      {
+        "repeat": 2,
+        "query_id": "q05",
+        "ms": 6.750999949872494
+      },
+      {
+        "repeat": 2,
+        "query_id": "q06",
+        "ms": 6.460600008722395
+      },
+      {
+        "repeat": 2,
+        "query_id": "q07",
+        "ms": 7.139499997720122
+      },
+      {
+        "repeat": 2,
+        "query_id": "q08",
+        "ms": 6.422000005841255
+      },
+      {
+        "repeat": 2,
+        "query_id": "q09",
+        "ms": 6.7677999613806605
+      },
+      {
+        "repeat": 2,
+        "query_id": "q10",
+        "ms": 7.318499963730574
+      },
+      {
+        "repeat": 2,
+        "query_id": "q11",
+        "ms": 7.946200028527528
+      },
+      {
+        "repeat": 2,
+        "query_id": "q12",
+        "ms": 8.351099968422204
+      },
+      {
+        "repeat": 3,
+        "query_id": "q01",
+        "ms": 8.50310001987964
+      },
+      {
+        "repeat": 3,
+        "query_id": "q02",
+        "ms": 5.993500002659857
+      },
+      {
+        "repeat": 3,
+        "query_id": "q03",
+        "ms": 7.28789996355772
+      },
+      {
+        "repeat": 3,
+        "query_id": "q04",
+        "ms": 8.396899967920035
+      },
+      {
+        "repeat": 3,
+        "query_id": "q05",
+        "ms": 6.196699978318065
+      },
+      {
+        "repeat": 3,
+        "query_id": "q06",
+        "ms": 6.416500022169203
+      },
+      {
+        "repeat": 3,
+        "query_id": "q07",
+        "ms": 6.059599982108921
+      },
+      {
+        "repeat": 3,
+        "query_id": "q08",
+        "ms": 8.247099991422147
+      },
+      {
+        "repeat": 3,
+        "query_id": "q09",
+        "ms": 8.000399975571781
+      },
+      {
+        "repeat": 3,
+        "query_id": "q10",
+        "ms": 8.469199994578958
+      },
+      {
+        "repeat": 3,
+        "query_id": "q11",
+        "ms": 6.1784000135958195
+      },
+      {
+        "repeat": 3,
+        "query_id": "q12",
+        "ms": 5.758400016929954
+      },
+      {
+        "repeat": 4,
+        "query_id": "q01",
+        "ms": 8.111300005111843
+      },
+      {
+        "repeat": 4,
+        "query_id": "q02",
+        "ms": 6.382299994584173
+      },
+      {
+        "repeat": 4,
+        "query_id": "q03",
+        "ms": 6.8165999837219715
+      },
+      {
+        "repeat": 4,
+        "query_id": "q04",
+        "ms": 6.23020000057295
+      },
+      {
+        "repeat": 4,
+        "query_id": "q05",
+        "ms": 6.501000025309622
+      },
+      {
+        "repeat": 4,
+        "query_id": "q06",
+        "ms": 6.658600002992898
+      },
+      {
+        "repeat": 4,
+        "query_id": "q07",
+        "ms": 6.746599974576384
+      },
+      {
+        "repeat": 4,
+        "query_id": "q08",
+        "ms": 6.285099952947348
+      },
+      {
+        "repeat": 4,
+        "query_id": "q09",
+        "ms": 6.6080999677069485
+      },
+      {
+        "repeat": 4,
+        "query_id": "q10",
+        "ms": 6.963399995584041
+      },
+      {
+        "repeat": 4,
+        "query_id": "q11",
+        "ms": 8.716000011190772
+      },
+      {
+        "repeat": 4,
+        "query_id": "q12",
+        "ms": 7.69710005261004
+      },
+      {
+        "repeat": 5,
+        "query_id": "q01",
+        "ms": 6.87449995893985
+      },
+      {
+        "repeat": 5,
+        "query_id": "q02",
+        "ms": 5.941599956713617
+      },
+      {
+        "repeat": 5,
+        "query_id": "q03",
+        "ms": 8.098800026345998
+      },
+      {
+        "repeat": 5,
+        "query_id": "q04",
+        "ms": 14.493900001980364
+      },
+      {
+        "repeat": 5,
+        "query_id": "q05",
+        "ms": 7.174899976234883
+      },
+      {
+        "repeat": 5,
+        "query_id": "q06",
+        "ms": 7.30729999486357
+      },
+      {
+        "repeat": 5,
+        "query_id": "q07",
+        "ms": 7.000199984759092
+      },
+      {
+        "repeat": 5,
+        "query_id": "q08",
+        "ms": 6.03030005004257
+      },
+      {
+        "repeat": 5,
+        "query_id": "q09",
+        "ms": 5.764400004409254
+      },
+      {
+        "repeat": 5,
+        "query_id": "q10",
+        "ms": 5.5321999825537205
+      },
+      {
+        "repeat": 5,
+        "query_id": "q11",
+        "ms": 6.830599973909557
+      },
+      {
+        "repeat": 5,
+        "query_id": "q12",
+        "ms": 7.478900020942092
+      },
+      {
+        "repeat": 6,
+        "query_id": "q01",
+        "ms": 6.438800017349422
+      },
+      {
+        "repeat": 6,
+        "query_id": "q02",
+        "ms": 6.683900021016598
+      },
+      {
+        "repeat": 6,
+        "query_id": "q03",
+        "ms": 6.182799988891929
+      },
+      {
+        "repeat": 6,
+        "query_id": "q04",
+        "ms": 6.484100013040006
+      },
+      {
+        "repeat": 6,
+        "query_id": "q05",
+        "ms": 7.286899955943227
+      },
+      {
+        "repeat": 6,
+        "query_id": "q06",
+        "ms": 7.3977000429295
+      },
+      {
+        "repeat": 6,
+        "query_id": "q07",
+        "ms": 6.324499961920083
+      },
+      {
+        "repeat": 6,
+        "query_id": "q08",
+        "ms": 6.219600036274642
+      },
+      {
+        "repeat": 6,
+        "query_id": "q09",
+        "ms": 6.507700018119067
+      },
+      {
+        "repeat": 6,
+        "query_id": "q10",
+        "ms": 8.778799965512007
+      },
+      {
+        "repeat": 6,
+        "query_id": "q11",
+        "ms": 6.399300007615238
+      },
+      {
+        "repeat": 6,
+        "query_id": "q12",
+        "ms": 5.877399991732091
+      },
+      {
+        "repeat": 7,
+        "query_id": "q01",
+        "ms": 6.447699968703091
+      },
+      {
+        "repeat": 7,
+        "query_id": "q02",
+        "ms": 9.036600007675588
+      },
+      {
+        "repeat": 7,
+        "query_id": "q03",
+        "ms": 7.058300019707531
+      },
+      {
+        "repeat": 7,
+        "query_id": "q04",
+        "ms": 7.448500022292137
+      },
+      {
+        "repeat": 7,
+        "query_id": "q05",
+        "ms": 6.112799979746342
+      },
+      {
+        "repeat": 7,
+        "query_id": "q06",
+        "ms": 6.242200033739209
+      },
+      {
+        "repeat": 7,
+        "query_id": "q07",
+        "ms": 7.232600008137524
+      },
+      {
+        "repeat": 7,
+        "query_id": "q08",
+        "ms": 6.279400025960058
+      },
+      {
+        "repeat": 7,
+        "query_id": "q09",
+        "ms": 7.127400022000074
+      },
+      {
+        "repeat": 7,
+        "query_id": "q10",
+        "ms": 6.114699994213879
+      },
+      {
+        "repeat": 7,
+        "query_id": "q11",
+        "ms": 6.211800035089254
+      },
+      {
+        "repeat": 7,
+        "query_id": "q12",
+        "ms": 8.092200034298003
+      },
+      {
+        "repeat": 8,
+        "query_id": "q01",
+        "ms": 6.066500034648925
+      },
+      {
+        "repeat": 8,
+        "query_id": "q02",
+        "ms": 6.563100032508373
+      },
+      {
+        "repeat": 8,
+        "query_id": "q03",
+        "ms": 6.7128000082448125
+      },
+      {
+        "repeat": 8,
+        "query_id": "q04",
+        "ms": 6.328300049062818
+      },
+      {
+        "repeat": 8,
+        "query_id": "q05",
+        "ms": 7.263600011356175
+      },
+      {
+        "repeat": 8,
+        "query_id": "q06",
+        "ms": 5.919500021263957
+      },
+      {
+        "repeat": 8,
+        "query_id": "q07",
+        "ms": 6.001100002322346
+      },
+      {
+        "repeat": 8,
+        "query_id": "q08",
+        "ms": 5.767000024206936
+      },
+      {
+        "repeat": 8,
+        "query_id": "q09",
+        "ms": 6.324600020889193
+      },
+      {
+        "repeat": 8,
+        "query_id": "q10",
+        "ms": 7.5579999829642475
+      },
+      {
+        "repeat": 8,
+        "query_id": "q11",
+        "ms": 6.69969996670261
+      },
+      {
+        "repeat": 8,
+        "query_id": "q12",
+        "ms": 6.815800035838038
+      },
+      {
+        "repeat": 9,
+        "query_id": "q01",
+        "ms": 6.47459999890998
+      },
+      {
+        "repeat": 9,
+        "query_id": "q02",
+        "ms": 6.550899997819215
+      },
+      {
+        "repeat": 9,
+        "query_id": "q03",
+        "ms": 7.855699979700148
+      },
+      {
+        "repeat": 9,
+        "query_id": "q04",
+        "ms": 6.4697000198066235
+      },
+      {
+        "repeat": 9,
+        "query_id": "q05",
+        "ms": 5.809700000099838
+      },
+      {
+        "repeat": 9,
+        "query_id": "q06",
+        "ms": 5.54570002714172
+      },
+      {
+        "repeat": 9,
+        "query_id": "q07",
+        "ms": 5.52179996157065
+      },
+      {
+        "repeat": 9,
+        "query_id": "q08",
+        "ms": 7.471499964594841
+      },
+      {
+        "repeat": 9,
+        "query_id": "q09",
+        "ms": 6.940199993550777
+      },
+      {
+        "repeat": 9,
+        "query_id": "q10",
+        "ms": 5.800699989777058
+      },
+      {
+        "repeat": 9,
+        "query_id": "q11",
+        "ms": 5.870199995115399
+      },
+      {
+        "repeat": 9,
+        "query_id": "q12",
+        "ms": 8.014999970328063
+      },
+      {
+        "repeat": 10,
+        "query_id": "q01",
+        "ms": 9.305700019467622
+      },
+      {
+        "repeat": 10,
+        "query_id": "q02",
+        "ms": 6.567400007043034
+      },
+      {
+        "repeat": 10,
+        "query_id": "q03",
+        "ms": 6.693100032862276
+      },
+      {
+        "repeat": 10,
+        "query_id": "q04",
+        "ms": 6.83610001578927
+      },
+      {
+        "repeat": 10,
+        "query_id": "q05",
+        "ms": 8.397600031457841
+      },
+      {
+        "repeat": 10,
+        "query_id": "q06",
+        "ms": 8.654500008560717
+      },
+      {
+        "repeat": 10,
+        "query_id": "q07",
+        "ms": 9.04969999101013
+      },
+      {
+        "repeat": 10,
+        "query_id": "q08",
+        "ms": 8.36949999211356
+      },
+      {
+        "repeat": 10,
+        "query_id": "q09",
+        "ms": 8.440400008112192
+      },
+      {
+        "repeat": 10,
+        "query_id": "q10",
+        "ms": 7.001599995419383
+      },
+      {
+        "repeat": 10,
+        "query_id": "q11",
+        "ms": 7.106599980033934
+      },
+      {
+        "repeat": 10,
+        "query_id": "q12",
+        "ms": 6.717799988109618
+      }
+    ]
+  }
+}
