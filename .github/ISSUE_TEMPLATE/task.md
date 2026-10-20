@@ -1,11 +1,15 @@
 ---
-name: Handbook task
-about: Track a task with an owner and acceptance evidence
-title: '[A/B/C] '
+name: Finder task
+about: Track a simplified Finder task with an owner and evidence
+title: '[Finder A/B/C] '
 ---
 Owner:
-Handbook page/task:
+Proposal section / linked task:
+Starting commit:
 Inputs and dependencies:
-Deliverables:
+Files and deliverables:
 Acceptance checks:
-Evidence / commit:
+Actual evidence / commit:
+Remaining failures or blockers:
+
+Use finder/PLAN.md and finder/CONTRACT.md. Keep development examples separate from final evaluation labels. Do not mark human review or rehearsal complete based only on automated tests.

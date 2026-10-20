@@ -39,3 +39,5 @@ To back up, stop the app and copy `runtime/items.json` to a private folder. To r
 Tests use temporary JSON files. The evaluator calls pure functions against the inherited 20-item/18-query frozen regression set; it does not read or change runtime data. Aashi should create a separate final labelled evaluation for the agreed 40-item dataset. Do not tune vocabulary or weights against final test queries. The old HTTP latency figures and 86-test backend total are not measurements of this app.
 
 The GUI uses Streamlit [page navigation](https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation) and its [AppTest framework](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest) for simulated interface checks. Browser layout and team rehearsal still require human review.
+
+Your next learning step: [Ananya's reasoning exercise](ANANYA-NEXT.md). Team branch/review instructions and live task links are in [CONTRIBUTING.md](../CONTRIBUTING.md).
