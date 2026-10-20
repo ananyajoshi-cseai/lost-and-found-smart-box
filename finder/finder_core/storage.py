@@ -18,6 +18,13 @@ def data_path():
 def validate_fields(values):
     if set(values) != FIELDS:
         raise ValueError('Expected category, color, brand, location and mark fields.')
+    vocab_map = {
+        'category': 'categories',
+        'color': 'colors',
+        'brand': 'brands',
+        'location': 'locations',
+        'mark': 'marks'
+    }
     result = {}
     for field in sorted(FIELDS):
         value = values[field]
