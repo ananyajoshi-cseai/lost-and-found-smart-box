@@ -1,5 +1,5 @@
 VOCAB= {
-    "categories": {
+    "category": {
         "flask": "bottle",
         "waterbottle": "bottle",
         "bottle": "bottle",
@@ -29,7 +29,7 @@ VOCAB= {
         "glasses": "glasses",
         "watch": "watch"
     },
-    "colors": {
+    "color": {
         "navy": "blue",
         "darkblue": "blue",
         "lightblue": "blue",
@@ -43,7 +43,7 @@ VOCAB= {
         "grey": "grey",
         "gray": "grey"
     },
-    "brands": {
+    "brand": {
         "milton": "milton",
         "cello": "cello",
         "casio": "casio",
@@ -51,7 +51,7 @@ VOCAB= {
         "rayban": "rayban",
         "fastrack": "fastrack"
     },
-    "locations": {
+    "location": {
         "lib": "library",
         "library": "library",
         "cafeteria": "canteen",
@@ -63,7 +63,7 @@ VOCAB= {
         "ground": "ground",
         "sportsground": "ground"
     },
-    "marks": {
+    "mark": {
         "stars": "star",
         "star": "star",
         "stripes": "stripe",
