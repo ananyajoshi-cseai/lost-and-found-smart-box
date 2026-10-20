@@ -1,6 +1,6 @@
 from collections import deque
 
-# 1. This i sour tree ontology
+
 TREE = {
     "campusitem": ["stationery", "electronics", "personalitems", "valuables"],
     "stationery": ["notebook", "pen", "calculator"],
@@ -47,4 +47,4 @@ def get_related_categories(start_category, max_depth=2):
                     queue.append((neighbor, depth + 1))
 
     return related_categories
-
+bfs = get_related_categories
