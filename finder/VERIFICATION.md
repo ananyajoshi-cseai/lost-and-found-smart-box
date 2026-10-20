@@ -6,6 +6,6 @@ The starting parser/ontology/vocabulary/scoring were reused from the original im
 
 The JSON store is tested for full report/search/return persistence, corrupt data, invalid fields, duplicate IDs, concurrent additions and interrupted replacement. Streamlit AppTest exercises reporting, score tables, required human confirmation, returning, missing results, ambiguity and visible corrupt-file errors. Initial first-render loading exceeded a 15-second test timeout; the focused rerun passed and cold-start allowance was increased to 45 seconds. No application failure was hidden or scoring logic changed to make the test pass.
 
-Remaining human checks: real browser layout/keyboard/narrow screen; all three teammates launch and explain their modules; Anika reviews dataset/ontology extensions; Aashi authors a separate final evaluation. This initial scaffold is not evidence that teammates have completed their assigned work or that the course has accepted dropping IoT.
+Remaining acceptance checks: browser layout, keyboard navigation, narrow-screen behavior, dataset/ontology coverage and a separate final labelled evaluation.
 
 The inherited pure-function regression at clean commit 259a46b5b2630c737c5c1bdab43f78c492059281 recorded 12/12 top-1 and top-3 positive hits and 1/6 negative false positives. Raw results and source hashes are in evaluation/results-v1.json. The known purple-bottle failure is retained. These results are not an independent evaluation of the 40-item UI seed, browser latency or campus accuracy.

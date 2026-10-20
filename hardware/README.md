@@ -1,4 +1,4 @@
-# Hardware and simulation — Anika
+# Archived hardware and simulation
 
 Start with handbook pages 6-9. Implement sketch.ino and diagram.json in simulation/: ESP32 GPIO27 INPUT_PULLUP button, GPIO26 LED through 330 ohms, 40 ms debounce. Commit the Wokwi link, circuit and actual ten-press/hold/reset evidence. They are not yet implemented or verified in this repository.
 

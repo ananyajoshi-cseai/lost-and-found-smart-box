@@ -1,4 +1,4 @@
-# Ananya's B08 viva practice
+# Backend reasoning review
 
 Read this alongside the actual files in backend/app/ai/ and app/schema.sql. The answers below describe implemented behavior, not future plans.
 
@@ -43,8 +43,8 @@ Application/schema updates and deletes are rejected by triggers. Someone with co
 
 **Q: What would you show if asked for live hardware?**
 
-Only genuine recorded evidence after Anika's simulation checks. The current replay and loopback tests use synthetic events; do not present them as live hardware.
+Only genuine recorded evidence after the simulation checks. The current replay and loopback tests use synthetic events; do not present them as live hardware.
 
-## Your remaining practice
+## Review checklist
 
-Run the B04/B06 exercises on synthetic records, then B07 recovery. Explain the score and BFS without reading this page. Record the date and any questions you could not answer; a written answer sheet does not establish that you have rehearsed or passed the viva.
+Run the B04/B06 exercises on synthetic records, then B07 recovery. Explain the score and BFS without reading this page. Record the date and any questions you could not answer; rehearsal results are tracked separately from automated checks.

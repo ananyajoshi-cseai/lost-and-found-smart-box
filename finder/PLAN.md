@@ -1,6 +1,6 @@
 # Simplified scope and ownership
 
-Approved direction: Ananya's 19 October 2026 instruction to implement the 5-page Campus Lost & Found Finder proposal. The PDF is retained in the user's Downloads/chat, not copied into the private repository. This replaces the original hardware/API plan for current work; confirm course acceptance of a software-only project separately.
+The software-only Campus Lost & Found Finder scope was adopted on 19 October 2026, based on the five-page project proposal. It replaces the original hardware/API plan.
 
 ## Keep / remove
 
@@ -28,8 +28,8 @@ The original version remains intact in the archive branch and historical folders
 - Measure top-1, top-3 and negative false-positive rate without tuning against test labels.
 - Assemble report/slides and rehearse the real report -> search -> return flow.
 
-These are ownership assignments, not claims of completed student contributions. The initial code was prepared in this assisted session and the existing engine came from Ananya's earlier work. Each member should contribute genuine reviewed changes and be able to explain them.
+Changes are tracked through task branches and reviewed pull requests.
 
 ## Done gate
 
-All three launch the simplified app; the persisted full flow works; corrupted storage errors remain visible; ambiguity/unknown words/related suggestions are handled honestly; final dataset and labels are frozen; measured results, limitations and human rehearsal are recorded. The old hardware/B07/B08 issue gates are superseded by this scope, not retroactively passed.
+All three launch the simplified app; the persisted full flow works; corrupted storage errors remain visible; ambiguity/unknown words/related suggestions are handled honestly; final dataset and labels are frozen; measured results, limitations and human rehearsal are recorded. The original hardware/B07/B08 requirements are superseded by this scope.

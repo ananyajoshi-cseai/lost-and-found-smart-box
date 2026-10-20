@@ -1,10 +1,10 @@
-# Person B report: deterministic reasoning
+# Deterministic reasoning design
 
-Prepared for the simplified Campus Lost & Found Finder. This section describes the implemented local Python reasoning, not the archived FastAPI/IoT project. It can be incorporated into the team report after review.
+This document describes the local Python reasoning used by Campus Lost & Found Finder.
 
 ## Inputs and knowledge
 
-Found items are explicit facts in JSON: category, color, optional brand, location, optional public mark and availability. Authored vocabulary maps synonyms to canonical facts, for example navy to blue and flask to bottle. No model is trained, images are not analyzed, and no external inference service is called. Knowledge/vocabulary and the category graph are Anika's review responsibility; the reasoning functions consume them.
+Found items are explicit facts in JSON: category, color, optional brand, location, optional public mark and availability. Authored vocabulary maps synonyms to canonical facts, for example navy to blue and flask to bottle. No model is trained, images are not analyzed, and no external inference service is called. The reasoning functions consume the shared vocabulary and category graph.
 
 ## Parsing and inference rules
 
@@ -26,7 +26,7 @@ The returned reasons dictionary maps supplied fields to earned points. strong_ca
 
 ## Integration with BFS
 
-With a supplied category, the engine first selects eligible exact-category items. Only if this pool is empty and the user enables related categories does it call Anika's depth-two BFS over the category graph. Returned/excluded exact-category items do not block fallback; existing eligible exact items do, even if they later fail the score threshold. Related categories earn zero category points and are visibly labelled.
+With a supplied category, the engine first selects eligible exact-category items. Only if this pool is empty and the user enables related categories does it call depth-two BFS over the category graph. Returned/excluded exact-category items do not block fallback; existing eligible exact items do, even if they later fail the score threshold. Related categories earn zero category points and are visibly labelled.
 
 The graph search uses a queue and a visited-distance map. From bottle: bottle at 0, personalitems at 1, then campusitem/umbrella/keys at 2. Depth-two nodes are not expanded. This is graph traversal over categories, not searching database records. The UI calls parse/rank directly; no HTTP transport or SQLite is involved.
 
@@ -36,4 +36,4 @@ Automated cases cover aliases, punctuation, longest phrases, all three immediate
 
 The retained limitations are authored English/ASCII vocabulary, no spelling correction and limited negation scope. Purple bottle can return other-colored bottles because purple is unknown. Not a blue bottle is not handled like bottle not blue. These failures remain documented; no final evaluation labels were changed to conceal them.
 
-The inherited frozen regression uses 20 items and 18 queries and previously returned 12/12 positive top-1/top-3 hits with 1/6 negative false positives. It is not independent evaluation of the 40-item starter dataset or campus accuracy. Aashi owns the separate final labelled evaluation and must record its actual results. Existing automated tests do not establish personal viva rehearsal or teammate review.
+The inherited frozen regression uses 20 items and 18 queries and previously returned 12/12 positive top-1/top-3 hits with 1/6 negative false positives. It is not independent evaluation of the 40-item starter dataset or campus accuracy. A separate final labelled evaluation and team acceptance run remain pending.

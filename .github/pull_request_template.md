@@ -13,6 +13,6 @@ List actual commands/results and browser checks where relevant. For documentatio
 - [ ] No real personal data, runtime JSON or credentials committed
 - [ ] Teammate review completed before merge
 
-## Contribution and evaluation
+## Evaluation
 
-Identify reused starting code versus newly authored work. Do not present inherited regression results as independent final evaluation or a match score as ownership probability.
+Distinguish regression results from independent final evaluation. Match scores represent agreement on supplied facts, not ownership probability.

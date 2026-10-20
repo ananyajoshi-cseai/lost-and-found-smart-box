@@ -1,4 +1,4 @@
-# Backend handoff for Aashi
+# Frontend integration guide
 
 Backend checkpoint: merged PR #12, commit 0626bb8e63cf0ae677026df05fb12826912b1231. Contract v1 is the integration baseline; final freeze awaits team acceptance.
 
@@ -10,7 +10,7 @@ Put the reviewed index.html and assets in frontend/ and open /ui/. Until index.h
 
 ## Requests to build against
 
-- Deposit event: POST /api/device/events with X-Device-Key and {"event_id":"demo-001","device_id":"box01","kind":"deposit"}. New=201; identical retry=200; changed payload with same ID=409. Anika's replay supplies this; the browser does not need the device secret.
+- Deposit event: POST /api/device/events with X-Device-Key and {"event_id":"demo-001","device_id":"box01","kind":"deposit"}. New=201; identical retry=200; changed payload with same ID=409. The replay script supplies this; the browser does not need the device secret.
 - Pending queue: GET /api/admin/events with staff HTTP Basic.
 - Registration: POST /api/items with staff HTTP Basic and multipart fields event_id, category, color, location, photo; optional brand, mark, private_mark. Use FormData and let the browser set the multipart boundary. Send canonical values from the vocabulary, not query aliases. Successful receipt is {id,status:"available",event_id}.
 - Search: POST /api/search with {"query":"navy Milton flask","broaden":false}. Display parsed facts, clarification/message, returned reasons, coverage_text and match_label. Render untrusted strings via textContent. Do not recompute scores or turn a strong_candidate flag into approval.

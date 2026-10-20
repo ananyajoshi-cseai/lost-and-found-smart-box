@@ -35,7 +35,7 @@ Contact cap 120, evidence/reason/notes cap 500; trim fields. Canonical registrat
 
 All staff routes use the same HTTP Basic dependency; missing configuration rejects startup. Device key is separate. Remote deployment needs HTTPS; current default is loopback only. Frontend mount /ui is implemented (503 until index.html exists); no CORS needed for same-origin. If split development needs CORS, allow explicit localhost:5500 and 127.0.0.1:5500 only.
 
-Anika handoff: same event ID on retry, X-Device-Key, 201/200 success, 401/409 stop and inspect. Aashi handoff: server owns scoring; display parsed facts, clarification, coverage and related labels. Inspect /openapi.json for implemented routes. Registration and claim routes are implemented.
+Device integration: same event ID on retry, X-Device-Key, 201/200 success, 401/409 stop and inspect. Frontend integration: server owns scoring; display parsed facts, clarification, coverage and related labels. Inspect /openapi.json for implemented routes. Registration and claim routes are implemented.
 
 ## B04 envelope and error decisions
 Public item detail/list fields are id, category, color, brand (nullable), location, status, created_at, mark (nullable), photo_url. Public responses exclude event_id, stored photo_path and all private attributes. Available items only: claimed detail and photo return 404. Listing is ordered by ascending ID, default limit=20, and next_offset is non-null only when another row exists. These choices fill gaps allowed by the handbook.
@@ -47,7 +47,7 @@ UPLOAD_DIR overrides the default backend/uploads directory. Stop the server befo
 ## B05 search card additions
 Existing query/broaden input, parsed facts, results, clarification and score fields are unchanged. Each result now adds category, color, brand (nullable), location, mark (nullable), photo_url, coverage_text (for example "3 of 5 attributes supplied") and match_label. Related matches explicitly say "Related suggestion, different category"; other matches say "Candidate match". Public fields are allowlisted in both SQL and the typed response model. No private mark, contact, evidence, event ID or filesystem path enters a card.
 
-The response envelope adds message: null with results; a clarification message for ambiguous/unknown queries; a no-match message for an eligible search with no results. Aashi should display parsed chips, message, coverage_text and match_label, render untrusted strings via textContent, and resolve photo_url against the API origin. The browser does not recompute scores. Photos may later return 404 if an item becomes unavailable.
+The response envelope adds message: null with results; a clarification message for ambiguous/unknown queries; a no-match message for an eligible search with no results. The interface displays parsed chips, message, coverage_text and match_label, renders untrusted strings via textContent, and resolves photo_url against the API origin. The browser does not recompute scores. Photos may later return 404 if an item becomes unavailable.
 
 The full search response is described in docs/openapi.json and /openapi.json. A score of 100 for a single supplied field means complete agreement on that one field, never ownership probability. Unknown words remain ignored according to the handbook parser; the evaluation reports false positives this can cause.
 

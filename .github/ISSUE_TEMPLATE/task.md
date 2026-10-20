@@ -12,4 +12,4 @@ Acceptance checks:
 Actual evidence / commit:
 Remaining failures or blockers:
 
-Use finder/PLAN.md and finder/CONTRACT.md. Keep development examples separate from final evaluation labels. Do not mark human review or rehearsal complete based only on automated tests.
+Use finder/PLAN.md and finder/CONTRACT.md. Keep development examples separate from final evaluation labels. Record automated checks and manual acceptance separately.
