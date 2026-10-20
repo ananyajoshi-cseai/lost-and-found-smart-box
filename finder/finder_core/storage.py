@@ -14,33 +14,25 @@ FIELDS = {'category', 'color', 'brand', 'location', 'mark'}
 def data_path():
     return Path(os.environ.get('FINDER_DATA_PATH') or ROOT / 'runtime/items.json').resolve()
 
-
 def validate_fields(values):
     if set(values) != FIELDS:
         raise ValueError('Expected category, color, brand, location and mark fields.')
-    
-    vocab_map = {
-        'category': 'categories',
-        'color': 'colors',
-        'brand': 'brands',
-        'location': 'locations',
-        'mark': 'marks'
-    }
-    
+
     result = {}
     for field in sorted(FIELDS):
         value = values[field]
-        if value is None and field in {'brand', 'mark'}:
+        if field in {'brand', 'mark'} and (
+            value is None or (isinstance(value, str) and value.strip().lower() in {'', 'none'})
+        ):
             result[field] = None
             continue
         if not isinstance(value, str):
             raise ValueError(f'Invalid {field}.')
         value = value.strip().lower()
-        
-        # FIX: Use vocab_map[field] instead of field
-        if value not in VOCAB[vocab_map[field]]:
+
+        if value not in VOCAB[field]:
             raise ValueError(f'Invalid {field}.')
-            
+
         result[field] = value
     return result
 
