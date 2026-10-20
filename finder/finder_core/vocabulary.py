@@ -1,4 +1,4 @@
-VOCABULARY = {
+VOCAB= {
     "categories": {
         "flask": "bottle",
         "waterbottle": "bottle",
