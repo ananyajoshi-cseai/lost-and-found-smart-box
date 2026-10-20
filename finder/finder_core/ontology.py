@@ -5,8 +5,8 @@ TREE = {
     "campusitem": ["stationery", "electronics", "personalitems", "valuables"],
     "stationery": ["notebook", "pen", "calculator"],
     "electronics": ["charger", "earphones", "headphones"],
-    "personalitems": ["bottle", "umbrella", "keys", "wallet"],
-    "valuables": ["idcard", "watch"]
+    "personalitems": ["bottle", "umbrella", "keys"],
+    "valuables": ["idcard", "watch", "wallet"]
 }
 
 
