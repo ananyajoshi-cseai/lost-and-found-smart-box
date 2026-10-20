@@ -381,7 +381,7 @@ lost-and-found-smart-box/
 
 ## Current scope and limitations
 
-- **Supported vocabulary:** seven item categories, three colors, two brands, two locations and three mark values. Unknown words and misspellings are ignored; `purple bottle` can still match bottles because `purple` is not recognized.
+- **Supported vocabulary:** categories, colors, brands, locations and marks are manually defined in `finder/finder_core/vocabulary.py`. Vocabulary extensions must remain compatible with the parser, storage and category graph. Unknown words and misspellings are ignored; `purple bottle` can still match bottles because `purple` is not recognized.
 - **Negation:** only an immediate `not`, `no` or `without` before a recognized phrase is supported. Use `bottle not blue`; `not a blue bottle` has unsupported scope.
 - **Returns:** the Staff page is an unauthenticated control for a supervised local demo. The app does not collect ownership proof or submit claims.
 - **Storage:** JSON is intended for this small local prototype. It is not a hosted multi-user database.
