@@ -14,14 +14,14 @@
     "color": "black",
     "brand": "casio",
     "location": "lab",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 103,
     "category": "notebook",
     "color": "red",
-    "brand": "null",
+    "brand": null,
     "location": "library",
     "mark": "stripe",
     "status": "available"
@@ -39,9 +39,9 @@
     "id": 105,
     "category": "wallet",
     "color": "brown",
-    "brand": "null",
+    "brand": null,
     "location": "ground",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -50,16 +50,16 @@
     "color": "red",
     "brand": "cello",
     "location": "library",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 107,
     "category": "pen",
     "color": "blue",
-    "brand": "null",
+    "brand": null,
     "location": "hall",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -77,14 +77,14 @@
     "color": "black",
     "brand": "sony",
     "location": "canteen",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 110,
     "category": "umbrella",
     "color": "black",
-    "brand": "null",
+    "brand": null,
     "location": "ground",
     "mark": "stripe",
     "status": "available"
@@ -93,18 +93,18 @@
     "id": 111,
     "category": "keys",
     "color": "silver",
-    "brand": "null",
+    "brand": null,
     "location": "hostel",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 112,
     "category": "idcard",
     "color": "blue",
-    "brand": "null",
+    "brand": null,
     "location": "library",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -131,14 +131,14 @@
     "color": "silver",
     "brand": "fastrack",
     "location": "ground",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 116,
     "category": "notebook",
     "color": "blue",
-    "brand": "null",
+    "brand": null,
     "location": "lab",
     "mark": "sticker",
     "status": "available"
@@ -165,9 +165,9 @@
     "id": 119,
     "category": "wallet",
     "color": "black",
-    "brand": "null",
+    "brand": null,
     "location": "hostel",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -176,14 +176,14 @@
     "color": "black",
     "brand": "hp",
     "location": "hall",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 121,
     "category": "umbrella",
     "color": "blue",
-    "brand": "null",
+    "brand": null,
     "location": "reception",
     "mark": "stripe",
     "status": "available"
@@ -192,9 +192,9 @@
     "id": 122,
     "category": "keys",
     "color": "gold",
-    "brand": "null",
+    "brand": null,
     "location": "canteen",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -210,9 +210,9 @@
     "id": 124,
     "category": "glasses",
     "color": "brown",
-    "brand": "null",
+    "brand": null,
     "location": "lab",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -228,9 +228,9 @@
     "id": 126,
     "category": "pen",
     "color": "red",
-    "brand": "null",
+    "brand": null,
     "location": "library",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -239,14 +239,14 @@
     "color": "white",
     "brand": "apple",
     "location": "ground",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 128,
     "category": "idcard",
     "color": "red",
-    "brand": "null",
+    "brand": null,
     "location": "canteen",
     "mark": "sticker",
     "status": "available"
@@ -264,9 +264,9 @@
     "id": 130,
     "category": "notebook",
     "color": "green",
-    "brand": "null",
+    "brand": null,
     "location": "hall",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -282,7 +282,7 @@
     "id": 132,
     "category": "wallet",
     "color": "tan",
-    "brand": "null",
+    "brand": null,
     "location": "library",
     "mark": "scratch",
     "status": "available"
@@ -293,16 +293,16 @@
     "color": "white",
     "brand": "apple",
     "location": "hostel",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
     "id": 134,
     "category": "umbrella",
     "color": "red",
-    "brand": "null",
+    "brand": null,
     "location": "lab",
-    "mark": "null",
+    "mark": null,
     "status": "available"
   },
   {
@@ -314,9 +314,49 @@
     "mark": "stripe",
     "status": "available"
   },
-  {"id":136,"category":"bottle","color":"blue","brand":"cello","location":"hall","mark":null,"status":"available"},
-{"id":137,"category":"keys","color":"black","brand":null,"location":"library","mark":"sticker","status":"available"},
-{"id":138,"category":"idcard","color":"white","brand":null,"location":"lab","mark":null,"status":"available"},
-{"id":139,"category":"pen","color":"black","brand":null,"location":"canteen","mark":"scratch","status":"available"},
-{"id":140,"category":"backpack","color":"blue","brand":"nike","location":"hostel","mark":null,"status":"available"}
+  {
+    "id": 136,
+    "category": "bottle",
+    "color": "blue",
+    "brand": "cello",
+    "location": "hall",
+    "mark": null,
+    "status": "available"
+  },
+  {
+    "id": 137,
+    "category": "keys",
+    "color": "black",
+    "brand": null,
+    "location": "library",
+    "mark": "sticker",
+    "status": "available"
+  },
+  {
+    "id": 138,
+    "category": "idcard",
+    "color": "white",
+    "brand": null,
+    "location": "lab",
+    "mark": null,
+    "status": "available"
+  },
+  {
+    "id": 139,
+    "category": "pen",
+    "color": "black",
+    "brand": null,
+    "location": "canteen",
+    "mark": "scratch",
+    "status": "available"
+  },
+  {
+    "id": 140,
+    "category": "backpack",
+    "color": "blue",
+    "brand": "nike",
+    "location": "hostel",
+    "mark": null,
+    "status": "available"
+  }
 ]
