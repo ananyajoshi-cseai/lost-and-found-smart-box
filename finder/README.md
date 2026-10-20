@@ -41,3 +41,5 @@ Tests use temporary JSON files. The evaluator calls pure functions against the i
 The GUI uses Streamlit [page navigation](https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation) and its [AppTest framework](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest) for simulated interface checks. Browser layout and team rehearsal still require human review.
 
 Your next learning step: [Ananya's reasoning exercise](ANANYA-NEXT.md). Team branch/review instructions and live task links are in [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+Person B deliverables: [completion and handoff](ANANYA-HANDOFF.md), [report contribution](PERSON-B-REPORT.md).
