@@ -1,6 +1,6 @@
 # B06: submit a claim and record a staff decision
 
-Use synthetic practice data only. This is a backend exercise in /docs; Aashi's staff UI is separate. The staff decision follows an in-person check; no score, photo recognition or QR scan approves ownership.
+Use synthetic practice data only. This is a backend exercise in /docs; the staff UI is separate. The staff decision follows an in-person check; no score, photo recognition or QR scan approves ownership.
 
 ## 1. Prepare an available item
 Start the backend using backend/README.md. Follow the B04 exercise to register a new practice item. Record its integer item ID and confirm it appears in GET /api/items. Use a new event ID if the old practice event was already registered.
@@ -15,7 +15,7 @@ In /docs, expand POST /api/claims and choose Try it out. Replace 101 with your a
 Execute: expect 201 and {claim_id:...,status:"pending"}. Note the claim ID. Submit a second request for the same item with contact second@example.invalid and different synthetic evidence. Both may be pending. This is intentional: a submission is a request, not an award of ownership. Do not automatically retry a submission after uncertain network delivery; this route has no idempotency key.
 
 ## 3. Inspect the staff-only list
-Click Authorize in /docs and supply the STAFF_USERNAME/STAFF_PASSWORD set in your server terminal. Call GET /api/admin/claims with status=pending. Staff can see contact, evidence, private_mark and item_status. Aashi should display those only in the staff dashboard; credentials must not be stored in JavaScript or localStorage.
+Click Authorize in /docs and supply the STAFF_USERNAME/STAFF_PASSWORD set in your server terminal. Call GET /api/admin/claims with status=pending. Staff can see contact, evidence, private_mark and item_status. Those fields are restricted to the staff dashboard; credentials must not be stored in JavaScript or localStorage.
 
 Without credentials, the list and decision routes return 401. Public search/detail must never show private evidence or contact information.
 

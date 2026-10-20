@@ -1,4 +1,4 @@
-# Backend: Ananya / Person B
+# Archived backend
 
 Python 3.11+; the initial run was tested on Python 3.12.14. Run commands from `backend` in PowerShell. A virtual environment keeps this project's dependencies separate from other projects.
 
@@ -7,7 +7,7 @@ py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-The local checkout prepared by Codex already has this environment. Do not commit `.venv` or copy it between computers. Activation is unnecessary when using the explicit interpreter below.
+Do not commit `.venv` or copy it between computers. Activation is unnecessary when using the explicit interpreter below.
 
 Set temporary local demo credentials in each server terminal. These prompts keep values out of source files. The password prompt uses masked input; values exist only in this process environment. `.env.example` lists variable names and is not auto-loaded.
 

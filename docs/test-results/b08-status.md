@@ -48,4 +48,4 @@ Use a new checkout folder, follow backend/README.md to create a new environment 
 .\.venv\Scripts\python.exe evaluation.py --output ../docs/test-results/b08-evaluation-repeat.json
 ```
 
-Run evaluation before changing tracked files so its commit/dirty flag are interpretable. Choose a new output filename each time. Record actual install/test results, preserve raw results, and never retune against these frozen labels. These commands use temporary synthetic databases. Final team release still requires the actual frontend/Wokwi workflow, teammate review and Ananya's oral rehearsal.
+Run evaluation before changing tracked files so its commit/dirty flag are interpretable. Choose a new output filename each time. Record actual install/test results, preserve raw results, and never retune against these frozen labels. These commands use temporary synthetic databases. Final team release still requires the actual frontend/Wokwi workflow, teammate review and demo rehearsal.

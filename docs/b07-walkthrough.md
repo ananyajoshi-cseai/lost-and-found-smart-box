@@ -2,7 +2,7 @@
 
 ## What is ready
 
-The backend now serves Aashi's frontend at `/ui/`, supports optional restricted local CORS, and provides offline database-plus-photo backup and restore commands. Existing API paths and payloads are unchanged. The committed replay script reports failures without replacing the saved event ID or automatically retrying.
+The backend now serves the frontend at `/ui/`, supports optional restricted local CORS, and provides offline database-plus-photo backup and restore commands. Existing API paths and payloads are unchanged. The committed replay script reports failures without replacing the saved event ID or automatically retrying.
 
 As of this checkpoint, the frontend and hardware branches contain scaffolding, not a finished browser client or Wokwi circuit. `/ui` redirects to `/ui/`; without `frontend/index.html`, it returns 503 with an explanation. This is expected. Use `/docs` for backend exercises meanwhile.
 
@@ -16,13 +16,13 @@ From `backend`, with the existing virtual environment:
 
 Local result: **86 passed in 11.05 seconds**, with one existing Starlette/httpx deprecation warning. The integration test starts a real server on a temporary loopback port and invokes the committed replay script over HTTP. It verifies new/duplicate events, wrong credentials, conflicting IDs, registration, search, competing claims, staff approval, hidden claimed photos, and an offline backup restored into a fresh location. It then restarts against the restored copy and checks claims, audit, available photos, search and health. All records and images are synthetic and temporary; your demo database is untouched.
 
-Fixture HTML tests verify static hosting; they do not establish that Aashi's UI works. Synthetic serial JSON does not establish that Anika's Wokwi trigger works.
+Fixture HTML tests verify static hosting; they do not establish that the frontend works. Synthetic serial JSON does not establish that the Wokwi trigger works.
 
 ## 2. Host the reviewed frontend
 
-Once Aashi's reviewed files are merged into `frontend/`, launch the backend as described in its README and visit `http://127.0.0.1:8000/ui/`. Use relative asset paths and API paths beginning `/api/`. Only `frontend/` is mounted; keep credentials, databases, backup bundles and private files out of that directory.
+Once the reviewed interface files are merged into `frontend/`, launch the backend as described in its README and visit `http://127.0.0.1:8000/ui/`. Use relative asset paths and API paths beginning `/api/`. Only `frontend/` is mounted; keep credentials, databases, backup bundles and private files out of that directory.
 
-Same-origin hosting requires no CORS configuration. If Aashi uses a separate development server, set this before launching the backend:
+Same-origin hosting requires no CORS configuration. For a separate frontend development server, set this before launching the backend:
 
 ```powershell
 $env:CORS_ORIGINS = 'http://localhost:5500,http://127.0.0.1:5500'
@@ -79,8 +79,8 @@ Issue #7 stays open until actual team integration is demonstrated:
 - [x] Backend routes, static hosting and restricted CORS tested.
 - [x] Actual replay script tested over loopback HTTP, including duplicate and error cases.
 - [x] Deposit -> registration -> search -> claim -> decision -> restored database/photos tested with synthetic fixtures.
-- [ ] Anika commits the Wokwi sketch, wiring and genuine serial evidence; perform the handbook's ten-press/hold/reset checks.
-- [ ] Aashi commits the UI and verifies registration, search, detail, claim and authenticated staff decisions against this backend.
+- [ ] Commit the Wokwi sketch, wiring and actual serial evidence; perform the handbook's ten-press/hold/reset checks.
+- [ ] Commit the UI and verify registration, search, detail, claim and authenticated staff decisions against this backend.
 - [ ] All members run the complete flow using genuine saved Wokwi JSON and the reviewed UI; capture expected/actual results, commit SHA and screenshots without private data.
 - [ ] Run and record the recovery exercise on a deliberately created demo dataset; verify photos, claim state and audit after restart.
 

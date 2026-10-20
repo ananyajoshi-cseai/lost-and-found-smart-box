@@ -1,10 +1,10 @@
 # Person B report contribution: algorithms and database
 
-Status: backend evidence checkpoint, not a final project release. Based on merged backend commit `0626bb8e63cf0ae677026df05fb12826912b1231`. The 39-page handbook remains the source of truth; see [provenance](../source-of-truth.md). Aashi can incorporate these sections into the report after team review.
+Status: backend evidence checkpoint, not a final project release. Based on merged backend commit `0626bb8e63cf0ae677026df05fb12826912b1231`. The 39-page handbook remains the source of truth; see [provenance](../source-of-truth.md). These sections describe the backend architecture and algorithms.
 
 ## Architecture and role boundaries
 
-Anika's trigger produces a deposit event with a stable ID. The Python replay bridge sends saved serial JSON to FastAPI. Staff registers an item against that event using explicit category, color, location, optional brand/marks and a laptop photo. SQLite stores records; re-encoded JPEGs live outside the public static directory. Aashi's browser client calls the documented API and displays explanations supplied by the backend. Only staff can decide a claim after independent ownership checks.
+The device trigger produces a deposit event with a stable ID. The Python replay bridge sends saved serial JSON to FastAPI. Staff registers an item against that event using explicit category, color, location, optional brand/marks and a laptop photo. SQLite stores records; re-encoded JPEGs live outside the public static directory. The browser client calls the documented API and displays explanations supplied by the backend. Only staff can decide a claim after independent ownership checks.
 
 A saved synthetic event exercises the backend transport but does not demonstrate a physical or Wokwi trigger. The actual browser client and Wokwi implementation remain pending at this checkpoint. No hardware purchase gate has been declared passed.
 

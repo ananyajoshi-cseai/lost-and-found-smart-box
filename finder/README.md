@@ -8,7 +8,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
 ```
 
-The prepared local checkout already has the new environment. Open http://127.0.0.1:8501. Keep the terminal open; Ctrl+C stops the app. No credentials, database service or device is needed. The Streamlit config binds to loopback and disables usage telemetry; run from this folder so it is loaded. Do not expose this unauthenticated classroom demo publicly.
+Open http://127.0.0.1:8501. Keep the terminal open; Ctrl+C stops the app. No credentials, database service or device is needed. The Streamlit config binds to loopback and disables usage telemetry; run from this folder so it is loaded. Do not expose this unauthenticated classroom demo publicly.
 
 ## Try the full flow
 
@@ -23,7 +23,7 @@ Staff is a demo control, not an authenticated staff account. No claim, ownership
 
 ## Data and recovery
 
-`data/items.seed.json` contains 40 synthetic starter records, including deliberate same-description pairs with different IDs. They reuse the earlier 20-item fixture; Anika should review realism and extend coverage rather than treating these as independent observations. The current vocabulary contains seven leaf categories plus three parent nodes; expanding to the proposal's approximately twelve categories remains Anika's task.
+`data/items.seed.json` contains 40 synthetic starter records, including deliberate same-description pairs with different IDs. They reuse the earlier 20-item fixture and are not independent observations. The current vocabulary contains seven leaf categories plus three parent nodes; expansion toward the proposal's approximately twelve categories is planned.
 
 On first read/write, a missing `runtime/items.json` is initialized from the seed. Subsequent reports and returns affect only that ignored runtime file. An existing empty file/list is not repopulated; malformed data produces a visible error and is never silently reset. JSON updates use a lock and temporary-file replacement to avoid partial writes and lost updates between local sessions. This is small local storage, not a multi-user hosted database.
 
@@ -36,10 +36,10 @@ To back up, stop the app and copy `runtime/items.json` to a private folder. To r
 .\.venv\Scripts\python.exe evaluate.py --output ../work/finder-evaluation.json
 ```
 
-Tests use temporary JSON files. The evaluator calls pure functions against the inherited 20-item/18-query frozen regression set; it does not read or change runtime data. Aashi should create a separate final labelled evaluation for the agreed 40-item dataset. Do not tune vocabulary or weights against final test queries. The old HTTP latency figures and 86-test backend total are not measurements of this app.
+Tests use temporary JSON files. The evaluator calls pure functions against the inherited 20-item/18-query frozen regression set; it does not read or change runtime data. A separate final labelled evaluation is planned for the agreed 40-item dataset. Do not tune vocabulary or weights against final test queries. The old HTTP latency figures and 86-test backend total are not measurements of this app.
 
 The GUI uses Streamlit [page navigation](https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation) and its [AppTest framework](https://docs.streamlit.io/develop/api-reference/app-testing/st.testing.v1.apptest) for simulated interface checks. Browser layout and team rehearsal still require human review.
 
-Your next learning step: [Ananya's reasoning exercise](ANANYA-NEXT.md). Team branch/review instructions and live task links are in [CONTRIBUTING.md](../CONTRIBUTING.md).
+Branch and review guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-Person B deliverables: [completion and handoff](ANANYA-HANDOFF.md), [report contribution](PERSON-B-REPORT.md).
+Technical documentation: [implementation status](ANANYA-HANDOFF.md), [reasoning design](PERSON-B-REPORT.md).

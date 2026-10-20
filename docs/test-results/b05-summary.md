@@ -48,4 +48,4 @@ The negative 'purple bottle' case returns non-purple bottles: the authored vocab
 ## Verification and handoff
 The full automated suite passed: **50 passed, 1 warning in 5.77s**. The existing Starlette/httpx adapter deprecation warning remains; no warnings suppressed and no dependencies changed. Tests cover metrics arithmetic including empty groups, API/ranker parity, private-field exclusion, usable photo URLs, related labels, no-match/clarification behavior and isolation from existing data.
 
-Aashi still needs to verify the new card fields in her UI. Claims, complete frontend integration, Wokwi and physical hardware remain outside this checkpoint. See [the B05 exercise](../b05-walkthrough.md).
+Frontend acceptance of the new card fields remains pending. Claims, complete frontend integration, Wokwi and physical hardware remain outside this checkpoint. See [the B05 exercise](../b05-walkthrough.md).
