@@ -24,6 +24,8 @@ for parent, children in TREE.items():
 
 def bfs(start, max_depth=2):
     """Distance from start to every category within max_depth steps (start = 0)."""
+    if start not in GRAPH:
+        return {}
     dist = {start: 0}
     queue = deque([start])
     while queue:
