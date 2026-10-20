@@ -16,3 +16,6 @@ backups/
 restores/
 manifest.json
 RESTORE_COMPLETE.json
+
+finder/runtime/
+*.lock
