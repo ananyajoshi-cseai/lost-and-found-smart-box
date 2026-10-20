@@ -53,3 +53,71 @@ def test_bfs_and_related_fallback():
 
 def test_empty_query():
  assert rank(parse("something"),[ITEM]) == []
+
+@pytest.mark.parametrize('text', ['', '   ', '!!!', 'not blue'])
+def test_no_positive_evidence_never_ranks(text):
+    assert parse(text)['positive'] == {}
+    assert rank(parse(text), [ITEM]) == []
+
+
+def test_alias_repetition_is_one_fact_not_ambiguity_or_extra_weight():
+    query = parse('navy blue dark blue flask water bottle')
+    assert query == {'positive': {'category': 'bottle', 'color': 'blue'},
+                     'excluded': {}, 'ambiguous': []}
+    result = rank(query, [ITEM])[0]
+    assert result['denominator'] == 65
+    assert result['coverage'] == 2
+    assert result['reasons'] == {'category': 40, 'color': 25}
+
+
+@pytest.mark.parametrize('text', [
+    'blue not bottle', 'bottle not blue', 'bottle no milton',
+    'bottle without library', 'bottle not star sticker',
+])
+def test_exclusions_apply_to_every_recognized_attribute(text):
+    assert rank(parse(text), [ITEM]) == []
+
+
+def test_exact_threshold_included_and_lower_score_excluded():
+    query = parse('blue milton bottle library star')
+    threshold = {**ITEM, 'color': 'red', 'brand': None, 'mark': None}
+    below = {**threshold, 'id': 102, 'location': 'canteen'}
+    result = rank(query, [below, threshold])
+    assert [r['id'] for r in result] == [101]
+    assert result[0]['score'] == 50
+    assert result[0]['reasons'] == {'category': 40, 'color': 0, 'brand': 0, 'location': 10, 'mark': 0}
+
+
+@pytest.mark.parametrize('query', ['blue milton', 'milton bottle', 'blue bottle'])
+def test_strong_flag_requires_all_three_supplied_fields(query):
+    result = rank(parse(query), [ITEM])[0]
+    assert not result['strong_candidate']
+
+
+def test_strong_flag_requires_agreement_not_just_supplied_fields():
+    result = rank(parse('red milton bottle'), [ITEM])[0]
+    assert not result['strong_candidate']
+
+
+def test_unavailable_exact_item_does_not_block_related_fallback():
+    returned = {**ITEM, 'status': 'returned'}
+    related = {**ITEM, 'id': 102, 'category': 'umbrella'}
+    result = rank(parse('blue milton bottle library star'), [returned, related], True)
+    assert [r['id'] for r in result] == [102]
+    assert result[0]['related'] and result[0]['reasons']['category'] == 0
+
+
+def test_published_parser_limits_remain_visible():
+    # Documented limitations, not a claim of general language understanding.
+    assert parse('not a blue bottle')['excluded'] == {}
+    assert parse('purple bottle')['positive'] == {'category': 'bottle'}
+    assert rank(parse('purple bottle'), [ITEM])[0]['score'] == 100
+
+
+def test_rank_is_repeatable_and_does_not_mutate_input():
+    from copy import deepcopy
+    query = parse('blue Milton bottle')
+    items = [dict(ITEM)]
+    before = deepcopy((query, items))
+    assert rank(query, items) == rank(query, items)
+    assert (query, items) == before
