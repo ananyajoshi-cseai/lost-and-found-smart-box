@@ -313,5 +313,10 @@
     "location": "hall",
     "mark": "stripe",
     "status": "available"
-  }
+  },
+  {"id":136,"category":"bottle","color":"blue","brand":"cello","location":"hall","mark":null,"status":"available"},
+{"id":137,"category":"keys","color":"black","brand":null,"location":"library","mark":"sticker","status":"available"},
+{"id":138,"category":"idcard","color":"white","brand":null,"location":"lab","mark":null,"status":"available"},
+{"id":139,"category":"pen","color":"black","brand":null,"location":"canteen","mark":"scratch","status":"available"},
+{"id":140,"category":"backpack","color":"blue","brand":"nike","location":"hostel","mark":null,"status":"available"}
 ]
