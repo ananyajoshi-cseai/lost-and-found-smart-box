@@ -22,29 +22,23 @@ for parent, children in TREE.items():
         GRAPH[child].append(parent)
 
 
+def bfs(start, max_depth=2):
+    """Distance from start to every category within max_depth steps (start = 0)."""
+    dist = {start: 0}
+    queue = deque([start])
+    while queue:
+        node = queue.popleft()
+        if dist[node] == max_depth:
+            continue
+        for neighbor in GRAPH.get(node, ()):
+            if neighbor not in dist:
+                dist[neighbor] = dist[node] + 1
+                queue.append(neighbor)
+    return dist
+
+
 def get_related_categories(start_category, max_depth=2):
-    # If the category isn't in our graph, just return the category itself
+    """Related categories as a list, excluding the start itself (used by rank)."""
     if start_category not in GRAPH:
         return [start_category]
-
-    visited = set([start_category])
-    # Queue stores tuples of: (current_node, current_depth)
-    queue = deque([(start_category, 0)])
-    related_categories = []
-
-    while queue:
-        current_node, depth = queue.popleft()
-
-        # If depth > 0, it means it's a related neighbor (not the start item itself)
-        if depth > 0:
-            related_categories.append(current_node)
-
-        # If we haven't hit our limit of 2 steps, explore neighbors
-        if depth < max_depth:
-            for neighbor in GRAPH[current_node]:
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append((neighbor, depth + 1))
-
-    return related_categories
-bfs = get_related_categories
+    return [name for name, d in bfs(start_category, max_depth).items() if d > 0]
