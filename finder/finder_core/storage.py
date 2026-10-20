@@ -18,6 +18,7 @@ def data_path():
 def validate_fields(values):
     if set(values) != FIELDS:
         raise ValueError('Expected category, color, brand, location and mark fields.')
+    
     vocab_map = {
         'category': 'categories',
         'color': 'colors',
@@ -25,6 +26,7 @@ def validate_fields(values):
         'location': 'locations',
         'mark': 'marks'
     }
+    
     result = {}
     for field in sorted(FIELDS):
         value = values[field]
@@ -34,11 +36,13 @@ def validate_fields(values):
         if not isinstance(value, str):
             raise ValueError(f'Invalid {field}.')
         value = value.strip().lower()
-        if value not in VOCAB[field]:
-            raise ValueError(f'Choose a supported {field}.')
+        
+        # FIX: Use vocab_map[field] instead of field
+        if value not in VOCAB[vocab_map[field]]:
+            raise ValueError(f'Invalid {field}.')
+            
         result[field] = value
     return result
-
 
 def validate_items(items):
     if not isinstance(items, list):
