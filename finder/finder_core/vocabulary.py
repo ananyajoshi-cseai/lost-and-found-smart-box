@@ -50,7 +50,7 @@ VOCAB = {
         "reception": ["reception"],
     },
     "mark": {
-        "star":    ["star", "stars"],
+        "star":    ["star", "stars", "star sticker"],
         "stripe":  ["stripe", "stripes"],
         "sticker": ["sticker", "stickers"],
         "scratch": ["scratch", "scratches"],
