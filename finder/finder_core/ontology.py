@@ -5,8 +5,8 @@ TREE = {
     "campusitem": ["stationery", "electronics", "personalitems", "valuables"],
     "stationery": ["notebook", "pen", "calculator"],
     "electronics": ["charger", "earphones", "headphones"],
-    "personalitems": ["bottle", "umbrella", "keys"],
-    "valuables": ["idcard", "watch", "wallet"]
+    "personalitems": ["bottle", "umbrella", "keys", "backpack"],
+    "valuables": ["idcard", "watch", "wallet", "glasses"]
 }
 
 
@@ -24,6 +24,8 @@ for parent, children in TREE.items():
 
 def bfs(start, max_depth=2):
     """Distance from start to every category within max_depth steps (start = 0)."""
+    if type(max_depth) is not int or max_depth < 0:
+        raise ValueError("max_depth must be a nonnegative integer")
     if start not in GRAPH:
         return {}
     dist = {start: 0}
@@ -40,7 +42,5 @@ def bfs(start, max_depth=2):
 
 
 def get_related_categories(start_category, max_depth=2):
-    """Related categories as a list, excluding the start itself (used by rank)."""
-    if start_category not in GRAPH:
-        return [start_category]
+    """Convenience view of BFS, excluding the start itself."""
     return [name for name, d in bfs(start_category, max_depth).items() if d > 0]

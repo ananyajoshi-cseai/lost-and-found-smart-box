@@ -40,7 +40,7 @@ def test_availability_ties_and_top_three():
  assert [r["id"] for r in rank(parse("bottle"),[{**ITEM,"id":i} for i in [8,4,3,2]])] == [2,3,4]
 
 def test_bfs_and_related_fallback():
- assert bfs("bottle") == {"bottle":0,"personalitems":1,"campusitem":2,"umbrella":2,"keys":2}
+ assert bfs("bottle") == {"bottle":0,"personalitems":1,"campusitem":2,"umbrella":2,"keys":2,"backpack":2}
  assert bfs("missing") == {}
  assert bfs("bottle",0) == {"bottle":0}
  related={**ITEM,"category":"umbrella"}

@@ -54,7 +54,17 @@ def validate_items(items):
 
 
 def _read(path):
-    return validate_items(json.loads(path.read_text(encoding='utf-8-sig')))
+    items = json.loads(path.read_text(encoding='utf-8-sig'))
+    # Earlier releases stored absent optional values as "none" or "".
+    # Normalize only those values in memory; reading never rewrites the file.
+    if isinstance(items, list):
+        for item in items:
+            if isinstance(item, dict):
+                for field in ('brand', 'mark'):
+                    value = item.get(field)
+                    if isinstance(value, str) and value.strip().lower() in {'', 'none'}:
+                        item[field] = None
+    return validate_items(items)
 
 
 def _write(path, items):

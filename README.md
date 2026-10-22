@@ -61,7 +61,7 @@ The AI component uses **knowledge representation, deterministic parsing, breadth
 
 ## Demo screenshots
 
-Screenshots of the running app with synthetic demo records. The report and staff images show the forms before submission.
+Screenshots of the app with synthetic demo records, captured before the latest seed-data expansion. Item IDs and details may differ in a fresh run. The report and staff images show the forms before submission.
 
 ### Search by description
 
@@ -181,14 +181,22 @@ When there are **no eligible exact-category items** and **Include related catego
 campusitem
 ├── stationery
 │   ├── notebook
-│   └── pen
+│   ├── pen
+│   └── calculator
 ├── electronics
 │   ├── charger
-│   └── earphones
-└── personalitems
-    ├── bottle
-    ├── umbrella
-    └── keys
+│   ├── earphones
+│   └── headphones
+├── personalitems
+│   ├── bottle
+│   ├── umbrella
+│   ├── keys
+│   └── backpack
+└── valuables
+    ├── idcard
+    ├── watch
+    ├── wallet
+    └── glasses
 ```
 
 BFS traverses parent and child links. Related candidates receive no category points when their category differs and must still pass the score threshold. Enabling the option does not guarantee a suggestion. Low-scoring exact-category items do not trigger a second search.
@@ -216,6 +224,26 @@ Candidates below **50** are excluded. Scores are displayed to two decimals; resu
 ### 4. Explain the result
 
 Each candidate shows its matching points and how many of the five attributes were supplied. A category-only query can score **100 with coverage 1/5**. The score measures text agreement; it is not a probability of ownership.
+
+### Reasoning rules and worked trace
+
+The parser returns structured evidence rather than deciding ownership. Ambiguous input or input with no positive facts yields no ranked results. For a valid query, the rules are:
+
+| Rule | Behavior | Regression coverage |
+| --- | --- | --- |
+| R1 | Exclude every item whose status is not `available`. | Returned-item and full-flow tests |
+| R2 | Exclude an item matching any negated attribute. | Exclusions across all five fields; compound mark negation |
+| R3 | Ask for clarification if a field has conflicting positive values or the same value is both included and excluded. | Color conflicts and contradictory descriptions |
+| R4 | Set `strong_candidate` only when category, color and brand are all supplied and agree. | Missing and mismatched field tests |
+| R5 | Apply the supplied-field weighted score, threshold 50, displayed-score ordering and ID tie-break; keep three results. | Arithmetic, threshold boundaries, ties and top-three tests |
+
+For the proposal's example, take a blue Milton bottle at the library with a star mark, and query **blue Milton bottle canteen star sticker**. Longest-phrase matching treats `star sticker` as one mark. The item is eligible, earns `40 + 25 + 15 + 0 + 10 = 90` out of a supplied weight of 100, and has coverage 5/5. Without the mark in the query, it earns `80 / 90 × 100 = 88.89`, with coverage 4/5. Both results have the strong-candidate flag; neither proves ownership.
+
+Adding `not star sticker` excludes a star-marked item before scoring. Adding a second positive color requests clarification rather than choosing a color. A misspelled brand such as `Miltn` is ignored, so coverage falls; no spelling correction or trained model is involved.
+
+The category tree now includes every category accepted by reporting. For example, BFS from `backpack` visits `personalitems` at distance 1 and `bottle`, `umbrella`, `keys` and `campusitem` at distance 2. Exploration stops there. A related item receives zero category points and still needs a score of at least 50. Invalid depth values are rejected.
+
+For N records, eligibility and scoring examine each record with at most five attributes; sorting the candidates costs O(N log N). BFS costs O(V + E) time and O(V) memory over the visited graph. Parser cost grows with the input length and hand-written alias list; it is intended for short descriptions and a small vocabulary.
 
 ## Quick start
 
@@ -278,7 +306,7 @@ Use a filename that does not already exist. To return to the default data path, 
 
 ## Data and storage
 
-The app starts with **40 synthetic records**, including repeated descriptions with different IDs to demonstrate ambiguity. These are demo examples, not real campus observations.
+The app starts with **40 synthetic records**, across 14 categories, including similar items to demonstrate ambiguity. These are demo examples, not real campus observations.
 
 | File | Purpose |
 | --- | --- |
@@ -303,7 +331,7 @@ Each stored record has this shape:
 
 IDs are unique positive integers. Status is `available` or `returned`. Brand and mark may be `null` when not supplied; the remaining attributes must use supported canonical values.
 
-Storage validates records, locks each read/update operation and replaces the JSON file atomically. Only a missing file is initialized from the seed; invalid existing data produces an error instead of being silently reset.
+Storage validates records, locks each read/update operation and replaces the JSON file atomically. For compatibility, older optional brand/mark values stored as `"none"` or an empty string are read as `null` in memory. Reading does not rewrite the file; the next successful add/return saves the normalized values while preserving item IDs and statuses. Other invalid records are still rejected. Only a missing file is initialized from the seed; invalid existing data produces an error instead of being silently reset.
 
 **Backup and restore:** stop the app, then copy the runtime JSON to a safe location. Before restoring a valid backup, retain a copy of the current file. No names, contact details or photos are collected by the app.
 
@@ -345,7 +373,9 @@ From `finder/`:
 
 On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`. Use a new evaluation output filename for each run; the evaluator does not overwrite an existing result.
 
-The current suite contains **49 tests** covering parsing, ranking, ontology traversal, storage and interface behavior. GitHub Actions runs dependency validation and tests on every push and pull request.
+The current suite contains **70 tests** covering parsing, ranking, ontology traversal, storage and interface behavior. GitHub Actions runs dependency validation and tests on every push and pull request.
+
+Integration checks also exercise every canonical value and alias, all 40 current seed records, related search for the newly connected categories, the proposal scoring example, and safe reads/updates of legacy records. These development checks are not an independently labelled accuracy evaluation.
 
 The evaluator uses the **20-item / 18-query frozen regression fixture**, separate from the app's 40 seed records. It reports top-1 and top-3 hits for positive queries and false positives for negative queries. Tests use temporary files, and the evaluator does not change runtime item data.
 

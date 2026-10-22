@@ -56,3 +56,31 @@ def test_ui_corrupt_file_visible(tmp_path,monkeypatch):
     app.button(key='search').click().run()
     assert app.error and not app.exception
     assert path.read_text()=='broken'
+
+
+def test_ui_star_sticker_interpretation_and_score(tmp_path, monkeypatch):
+    import json
+    app, path = setup_app(tmp_path, monkeypatch)
+    path.write_text(json.dumps([dict(id=501, category='bottle', color='blue',
+        brand='milton', location='library', mark='star', status='available')]))
+    app.text_input(key='query').input('blue Milton bottle canteen star sticker').run()
+    app.button(key='search').click().run()
+    assert not app.exception and not app.warning
+    assert any('Item #501' in s.value for s in app.subheader)
+    assert any('90.00' in m.value for m in app.markdown)
+    app.text_input(key='query').input('bottle not star sticker').run()
+    app.button(key='search').click().run()
+    assert any('No matching' in i.value for i in app.info)
+
+
+def test_ui_legacy_runtime_remains_searchable(tmp_path, monkeypatch):
+    import json
+    app, path = setup_app(tmp_path, monkeypatch)
+    original = json.dumps([dict(id=501, category='backpack', color='black',
+        brand='none', location='library', mark='none', status='available')])
+    path.write_text(original)
+    app.text_input(key='query').input('black bag library').run()
+    app.button(key='search').click().run()
+    assert not app.exception and not app.error
+    assert any('Item #501' in s.value for s in app.subheader)
+    assert path.read_text() == original
