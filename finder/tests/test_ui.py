@@ -52,8 +52,7 @@ def test_ui_clarification_and_empty(tmp_path,monkeypatch):
 def test_ui_corrupt_file_visible(tmp_path,monkeypatch):
     app,path=setup_app(tmp_path,monkeypatch)
     path.write_text('broken')
-    app.text_input(key='query').input('bottle').run()
-    app.button(key='search').click().run()
+    app.run()  # Dashboard reads the inventory before offering search.
     assert app.error and not app.exception
     assert path.read_text()=='broken'
 
@@ -84,3 +83,40 @@ def test_ui_legacy_runtime_remains_searchable(tmp_path, monkeypatch):
     assert not app.exception and not app.error
     assert any('Item #501' in s.value for s in app.subheader)
     assert path.read_text() == original
+
+
+def test_dashboard_inventory_totals_and_return_refresh(tmp_path, monkeypatch):
+    import json
+    app, path = setup_app(tmp_path, monkeypatch)
+    path.write_text(json.dumps([
+        dict(id=1, category='bottle', color='blue', brand='milton', location='library', mark='star', status='available'),
+        dict(id=2, category='keys', color='black', brand=None, location='canteen', mark=None, status='returned')]))
+    app.run()
+    assert {m.label: m.value for m in app.metric} == {'Recorded':'2','Available':'1','Returned':'1','Locations':'2'}
+    app.switch_page('views/staff.py').run()
+    assert not app.exception
+    app.checkbox(key='confirmed').check()
+    app.button[0].click().run()
+    assert not app.exception and app.success
+    assert {m.label: m.value for m in app.metric}['Returned'] == '2'
+    assert {m.label: m.value for m in app.metric}['Available'] == '0'
+    assert not app.button
+
+
+def test_all_dashboard_pages_handle_empty_inventory(tmp_path, monkeypatch):
+    app, _ = setup_app(tmp_path, monkeypatch)
+    for page in ['views/search.py','views/report.py','views/staff.py']:
+        app.switch_page(page).run()
+        assert not app.exception
+        assert app.info
+
+
+def test_results_clear_when_query_changes(tmp_path, monkeypatch):
+    from finder_core.storage import add_item
+    app, path = setup_app(tmp_path, monkeypatch)
+    add_item(dict(category='bottle',color='blue',brand='milton',location='library',mark='star'),path)
+    app.text_input(key='query').input('blue bottle').run()
+    app.button(key='search').click().run()
+    assert any('Item #' in s.value for s in app.subheader)
+    app.text_input(key='query').input('keys').run()
+    assert not any('Item #' in s.value for s in app.subheader)

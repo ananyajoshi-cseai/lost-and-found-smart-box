@@ -2,37 +2,74 @@ import streamlit as st
 from finder_core.engine import parse, rank
 from finder_core.scoring import WEIGHTS
 from finder_core.ui import records
+from finder_core.dashboard import hero, metrics, facts_chips, bars, heatmap, score_bars, radar_svg
 
-st.header('Search for a lost item')
-st.caption('Try “navy Milton flask” or “bottle not blue”. We understand only the listed vocabulary; spelling and complex negation may need rephrasing.')
-text = st.text_input('Describe your item', max_chars=300, key='query')
-broaden = st.checkbox('Include related categories', key='broaden')
-parsed = parse(text)
-if text:
-    st.write('Understood:', ', '.join(f'{k}: {v}' for k,v in parsed['positive'].items()) or 'No known attributes')
-    if parsed['excluded']:
-        st.write('Excluded:', ', '.join(f'{k}: {", ".join(v)}' for k,v in parsed['excluded'].items()))
-    st.caption('Check this interpretation before searching. “not a blue bottle” has unsupported negation scope; use “bottle not blue”.')
-if st.button('Find matches', key='search'):
+hero('01 / DISCOVER', 'Find your missing piece.',
+     'Describe what you lost. Explore possible matches. Reunite with your belongings after an in-person check.')
+items = records()
+metrics(items)
+st.write('')
+with st.container(border=True):
+    st.subheader('Search for a lost item')
+    text = st.text_input('Describe your item', placeholder='Try: navy Milton flask near the library', max_chars=300, key='query')
+    broaden = st.checkbox('Include related categories', key='broaden', help='Explore nearby categories only when no eligible exact-category item exists.')
+    parsed = parse(text)
+    if text:
+        st.caption('UNDERSTOOD · Check these details before searching')
+        if parsed['positive'] or parsed['excluded']:
+            facts_chips(parsed)
+        else:
+            st.caption('No known attributes yet.')
+    searched = st.button('Find matches', key='search', type='primary', icon=':material/search:')
+    st.caption('Supported words only. For exclusions, use “bottle not blue”. Spelling and complex phrases such as “not a blue bottle” may need rephrasing.')
+
+# Keep results visible on chart interactions, but clear them when the query changes.
+signature = (text, broaden)
+if searched:
+    st.session_state['searched_signature'] = signature
+if st.session_state.get('searched_signature') == signature:
     if parsed['ambiguous']:
         st.warning('Please clarify: '+', '.join(parsed['ambiguous']))
     elif not parsed['positive']:
         st.info('Add a known category or color to search.')
     else:
-        items = records()
         matches = rank(parsed, items, broaden)
+        st.subheader('Your possible matches')
+        st.caption(f'{len(matches)} shown · Up to 3 candidates · Minimum score 50 · Sorted by score, then item ID')
         if not matches:
             st.info('No matching available items. Try different details or include related categories.')
-        for result in matches:
-            item = next(i for i in items if i['id']==result['id'])
+        for index, result in enumerate(matches, 1):
+            item = next(i for i in items if i['id'] == result['id'])
             with st.container(border=True):
+                st.caption(f'MATCH {index:02d} · '+('RELATED CATEGORY' if result['related'] else 'CANDIDATE'))
                 st.subheader(f'Item #{item["id"]} · {item["color"].title()} {item["category"]}')
-                st.text('Brand: ' + (item['brand'] or 'Not supplied') + ' | Found at: ' + item['location'] + ' | Mark: ' + (item['mark'] or 'Not supplied'))
                 st.write(f'Score: {result["score"]:.2f} / 100 · {result["coverage_text"]}')
+                st.progress(result['score']/100)
+                st.text('Brand: '+(item['brand'] or 'Not supplied')+' | Found at: '+item['location']+' | Mark: '+(item['mark'] or 'Not supplied'))
                 st.caption('Text agreement, not ownership probability.')
-                st.write('Related suggestion, different category' if result['related'] else 'Candidate match')
+                if result['related']:
+                    st.info('Related suggestion, different category')
                 if result['strong_candidate']:
                     st.caption('Category, color and brand agree. Human verification is still required.')
-                st.table([{'Field':field, 'Points':points, 'Possible':WEIGHTS[field]}
-                          for field,points in result['reasons'].items()])
+                with st.expander('Explore this match', expanded=index == 1):
+                    points, agreement, table = st.tabs(['Weighted points', 'Attribute radar', 'Exact breakdown'])
+                    with points:
+                        score_bars(result, f'points_{item["id"]}')
+                        st.caption('Only supplied attributes contribute to the score denominator.')
+                    with agreement:
+                        st.image(radar_svg(result), width=440)
+                        st.caption('Outer edge = match. Center = mismatch or not supplied; axis labels distinguish them. This shows agreement, not confidence. Use Exact breakdown for the numbers.')
+                    with table:
+                        st.table([{'Field':field, 'Points':points, 'Possible':WEIGHTS[field]}
+                                  for field,points in result['reasons'].items()])
                 st.caption('Contact the campus lost-and-found desk to verify ownership; this demo does not submit claims.')
+
+st.divider()
+st.subheader('Explore the lost & found')
+st.caption('Live snapshot of available items only. Hover over a chart for exact counts.')
+available = [i for i in items if i['status'] == 'available']
+category, location = st.tabs(['By category', 'Category × location'])
+with category:
+    bars(available, 'category', 'Category', 'search_categories')
+with location:
+    heatmap(available, 'search_locations')

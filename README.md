@@ -57,15 +57,16 @@ The AI component uses **knowledge representation, deterministic parsing, breadth
 | **Related-category search** | Optionally explores the ontology using BFS when no eligible exact-category item exists. |
 | **Found-item reporting** | Saves a structured item record with a unique ID. |
 | **Return tracking** | Records a return after human confirmation and excludes the item from future searches. |
+| **Visual dashboard** | Category and location bars, a category/location heatmap, color pie, status donut, weighted points and an attribute radar. |
 | **Local persistence** | Retains reports and returns in JSON across app restarts. |
 
 ## Demo screenshots
 
-Screenshots of the app with synthetic demo records, captured before the latest seed-data expansion. Item IDs and details may differ in a fresh run. The report and staff images show the forms before submission.
+Screenshots of the redesigned app with the 40 synthetic seed records. The report and staff images show the forms before submission.
 
 ### Search by description
 
-![Search page with a navy Milton flask description](assets/screenshots/overview.jpg)
+![Search dashboard with live inventory totals](assets/screenshots/overview.jpg)
 
 ### Understand a match
 
@@ -75,6 +76,14 @@ For `navy Milton flask`, the parser recognizes a blue Milton bottle. This candid
 
 <details>
 <summary><strong>View the found-item and return screens</strong></summary>
+
+### Inventory heatmap
+
+![Available items by category and location](assets/screenshots/heatmap.jpg)
+
+### Attribute radar
+
+![Attribute agreement with missing fields labelled](assets/screenshots/radar.jpg)
 
 ### Report a found item
 
@@ -90,12 +99,19 @@ Select the item ID and confirm the independent return check.
 
 </details>
 
+### Reading the dashboard
+
+The navy, teal and soft-gray theme is shared across all three pages. Search charts count **available items**; reporting charts include **all recorded items**. The staff donut shows current available/returned counts. These are live inventory snapshots, not historical trends.
+
+Match bars show weighted points for supplied attributes. The spider/radar chart shows binary agreement on five axes; missing fields are explicitly labelled and do not contribute to scoring. Neither chart expresses ownership confidence. The exact breakdown remains available as a table.
+
 ## Technology stack
 
 | Layer | Technology | Purpose |
 | --- | --- | --- |
 | Application | Python 3.12 | Parsing, rules, ranking and storage |
 | Interface | Streamlit | Search, report and return pages |
+| Charts | Altair, pandas and SVG | Inventory counts and transparent match explanations |
 | Knowledge | Dictionaries and category graph | Canonical vocabulary, aliases and relationships |
 | Search | BFS and weighted matching | Related-category exploration and ranking |
 | Persistence | JSON, FileLock, atomic replacement | Validated local reads and writes |
@@ -373,7 +389,7 @@ From `finder/`:
 
 On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`. Use a new evaluation output filename for each run; the evaluator does not overwrite an existing result.
 
-The current suite contains **70 tests** covering parsing, ranking, ontology traversal, storage and interface behavior. GitHub Actions runs dependency validation and tests on every push and pull request.
+The current suite contains **75 tests** covering parsing, ranking, ontology traversal, storage and interface behavior. GitHub Actions runs dependency validation and tests on every push and pull request.
 
 Integration checks also exercise every canonical value and alias, all 40 current seed records, related search for the newly connected categories, the proposal scoring example, and safe reads/updates of legacy records. These development checks are not an independently labelled accuracy evaluation.
 
@@ -400,6 +416,7 @@ lost-and-found-smart-box/
     │   ├── ontology.py          # Category graph and BFS
     │   ├── scoring.py           # Eligibility and weighted ranking
     │   ├── storage.py           # JSON persistence
+    │   ├── dashboard.py         # Theme, metrics and charts
     │   └── ui.py                # Shared interface helpers
     ├── views/                  # Search, report and staff pages
     ├── data/                   # Synthetic seed records
