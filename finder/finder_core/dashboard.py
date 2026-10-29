@@ -16,12 +16,11 @@ PALETTE = ['#087F8C', '#42A99A', '#E5AD54', '#53768B', '#8B86B3', '#B97963', '#7
 
 def style():
     st.html("""<style>
-    .stApp { background: #f5f7f8; }
     .block-container { max-width: 1280px; padding-top: 4rem; padding-bottom: 3rem; }
-    [data-testid="stSidebar"] { background: #eaf0f2; border-right: 1px solid #d5e0e5; }
-    [data-testid="stMetric"] { background: white; border: 1px solid #dce5e8;
+    [data-testid="stSidebar"] { border-right: 1px solid #7d929b40; }
+    [data-testid="stMetric"] { background: transparent; border: 1px solid #7d929b60;
         border-radius: 14px; padding: 14px 12px; }
-    [data-testid="stMetricValue"] { color: #172b3a; font-weight: 700; }
+    [data-testid="stMetricValue"] { color: inherit; font-weight: 700; }
     [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 16px; }
     h1,h2,h3 { letter-spacing: -.035em; }
     .finder-hero { background: #172b3a; border-radius: 20px; padding: 28px 32px;
@@ -32,7 +31,7 @@ def style():
     .finder-chip { display: inline-block; background: #e2f2ee; color: #155b54;
         padding: 6px 12px; border-radius: 20px; margin: 0 6px 7px 0; font-size: 13px; }
     .finder-chip.excluded { background: #fff0d8; color: #774700; }
-    .finder-footnote { color: #536c7a; font-size: 12px; margin-top: 24px; }
+    .finder-footnote { color: inherit; opacity: .75; font-size: 12px; margin-top: 24px; }
     @media(max-width: 1100px) { [data-testid="stHorizontalBlock"] { flex-wrap: wrap; } [data-testid="stColumn"] { min-width: min(100%, 260px); } }
     .st-key-inventory-metrics [data-testid="stColumn"] { min-width: min(100%, 170px); }
     @media(max-width: 640px) { .finder-hero { padding: 22px 18px; } .block-container { padding-top: 3.5rem; } }
@@ -61,9 +60,9 @@ def counts(items, field):
 
 
 def finish(chart, height=270):
+    # Streamlit applies the viewer's active theme to axes, legends and background.
     return chart.properties(height=height).configure_view(stroke=None).configure_axis(
-        labelColor='#536C7A', titleColor=NAVY, gridColor='#E6ECEF', labelFontSize=12,
-        titleFontSize=12).configure_legend(labelColor=NAVY, titleColor=NAVY)
+        labelFontSize=12, titleFontSize=12)
 
 
 def bars(items, field, label, key):
@@ -139,21 +138,23 @@ def radar_svg(result):
         return cx + math.cos(angle)*radius*scale, cy + math.sin(angle)*radius*scale
     def polygon(scales):
         return ' '.join(f'{x:.1f},{y:.1f}' for x,y in (point(i,s) for i,s in enumerate(scales)))
-    shapes = []
+    # SVG images do not inherit Streamlit's theme. Use a self-contained dark panel
+    # with high-contrast labels, readable in either application theme.
+    shapes = ['<rect width="440" height="340" rx="16" fill="#172B3A"/>']
     for scale in (.25,.5,.75,1):
-        shapes.append(f'<polygon points="{polygon([scale]*5)}" fill="none" stroke="#DCE5E8"/>')
+        shapes.append(f'<polygon points="{polygon([scale]*5)}" fill="none" stroke="#537080"/>')
     for i, field in enumerate(fields):
         x,y = point(i,1)
         lx,ly = point(i,1.38)
         state = 'Not supplied' if field not in result['reasons'] else ('Match' if result['reasons'][field] else 'Mismatch')
-        shapes.append(f'<line x1="{cx}" y1="{cy}" x2="{x}" y2="{y}" stroke="#DCE5E8"/>')
-        shapes.append(f'<text x="{lx}" y="{ly}" text-anchor="middle" fill="{NAVY}" font-size="12">{field.title()}</text>')
-        shapes.append(f'<text x="{lx}" y="{ly+16}" text-anchor="middle" fill="#536C7A" font-size="10">{state}</text>')
+        shapes.append(f'<line x1="{cx}" y1="{cy}" x2="{x}" y2="{y}" stroke="#537080"/>')
+        shapes.append(f'<text x="{lx}" y="{ly}" text-anchor="middle" fill="#E6EFF3" font-size="12">{field.title()}</text>')
+        shapes.append(f'<text x="{lx}" y="{ly+16}" text-anchor="middle" fill="#B5C9D3" font-size="10">{state}</text>')
     scales = [1 if result['reasons'].get(field,0) else 0 for field in fields]
-    shapes.append(f'<polygon points="{polygon(scales)}" fill="{TEAL}" fill-opacity="0.18" stroke="{TEAL}" stroke-width="2.5"/>')
+    shapes.append(f'<polygon points="{polygon(scales)}" fill="#5DD6C5" fill-opacity="0.25" stroke="#5DD6C5" stroke-width="2.5"/>')
     for i,scale in enumerate(scales):
         x,y=point(i,scale)
-        shapes.append(f'<circle cx="{x}" cy="{y}" r="4" fill="{TEAL}"/>')
+        shapes.append(f'<circle cx="{x}" cy="{y}" r="4" fill="#5DD6C5"/>')
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 340" role="img" aria-label="Attribute agreement radar; outer points indicate matches. Read labels for missing attributes." style="width:100%;max-height:290px;font-family:Arial,sans-serif">'+''.join(shapes)+'</svg>'
 
 

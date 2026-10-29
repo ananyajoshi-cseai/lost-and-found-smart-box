@@ -10,6 +10,7 @@ page = st.navigation([
     st.Page('views/report.py', title='Report Found Item', icon=':material/add_circle:'),
     st.Page('views/staff.py', title='Staff — mark returned', icon=':material/task_alt:'),
 ])
+st.sidebar.caption('Appearance: open ⋮ at the top right and choose Light, Dark or System.')
 st.sidebar.divider()
 st.sidebar.markdown('**A little detail. A better match.**')
 st.sidebar.caption('Describe the category, color and any identifying marks to narrow your search.')
