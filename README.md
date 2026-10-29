@@ -99,9 +99,13 @@ Select the item ID and confirm the independent return check.
 
 </details>
 
+### Dark mode
+
+![Staff dashboard in dark mode](assets/screenshots/dark-mode.jpg)
+
 ### Reading the dashboard
 
-The navy, teal and soft-gray theme is shared across all three pages. Search charts count **available items**; reporting charts include **all recorded items**. The staff donut shows current available/returned counts. These are live inventory snapshots, not historical trends.
+Light and dark palettes are available across all three pages. Open **⋮** at the top right and choose **Light**, **Dark** or **System** in the Theme section. The choice is handled by Streamlit in the browser. Forms, tables and chart labels follow the selected theme; the radar uses a consistent high-contrast navy panel. Search charts count **available items**; reporting charts include **all recorded items**. The staff donut shows current available/returned counts. These are live inventory snapshots, not historical trends.
 
 Match bars show weighted points for supplied attributes. The spider/radar chart shows binary agreement on five axes; missing fields are explicitly labelled and do not contribute to scoring. Neither chart expresses ownership confidence. The exact breakdown remains available as a table.
 
