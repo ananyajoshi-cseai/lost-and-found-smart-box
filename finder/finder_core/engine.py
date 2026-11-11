@@ -1,4 +1,4 @@
-from .parser import parse
+from .parser import parse, suggest_corrections, apply_correction
 from .ontology import bfs
 from .scoring import rank as _rank
 
