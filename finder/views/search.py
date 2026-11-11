@@ -1,5 +1,5 @@
 import streamlit as st
-from finder_core.engine import parse, rank
+from finder_core.engine import parse, rank, suggest_corrections, apply_correction
 from finder_core.scoring import WEIGHTS
 from finder_core.ui import records
 from finder_core.dashboard import hero, metrics, facts_chips, bars, heatmap, score_bars, radar_svg
@@ -14,6 +14,14 @@ with st.container(border=True):
     text = st.text_input('Describe your item', placeholder='Try: navy Milton flask near the library', max_chars=300, key='query')
     broaden = st.checkbox('Include related categories', key='broaden', help='Explore nearby categories only when no eligible exact-category item exists.')
     parsed = parse(text)
+    def _accept(typed, suggestion):
+        st.session_state['query'] = apply_correction(st.session_state.get('query', ''), typed, suggestion)
+    for fix in suggest_corrections(text):
+        word = fix['suggestion'].title() if fix['field'] == 'brand' else fix['suggestion']
+        left, right = st.columns([3, 1], vertical_alignment='center')
+        left.write(f'Did you mean **{word}**? You typed “{fix["typed"]}”.')
+        right.button(f'Use {word}', key=f'fix_{fix["typed"]}', on_click=_accept,
+                     args=(fix['typed'], fix['suggestion']))
     if text:
         st.caption('UNDERSTOOD · Check these details before searching')
         if parsed['positive'] or parsed['excluded']:
@@ -21,7 +29,7 @@ with st.container(border=True):
         else:
             st.caption('No known attributes yet.')
     searched = st.button('Find matches', key='search', type='primary', icon=':material/search:')
-    st.caption('Supported words only. For exclusions, use “bottle not blue”. Spelling and complex phrases such as “not a blue bottle” may need rephrasing.')
+    st.caption('Plurals, short forms (bttl, chgr, earbuds, specs) and exclusions such as “not a blue bottle” or “bottle not blue” are understood. Close misspellings are offered as suggestions; unknown words are ignored.')
 
 # Keep results visible on chart interactions, but clear them when the query changes.
 signature = (text, broaden)
