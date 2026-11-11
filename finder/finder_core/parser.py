@@ -64,3 +64,41 @@ def parse(text):
         elif found:
             positive[field] = next(iter(found))
         if negative:
+            excluded[field] = sorted(negative)
+    return {"positive": positive, "excluded": excluded, "ambiguous": ambiguous}
+
+
+# --- Spelling suggestions -------------------------------------------------------
+# Kept separate from parse(): a guess is never applied silently, the app asks first.
+
+_TARGETS = {}
+for _field, _values in VOCAB.items():
+    for _value, _aliases in _values.items():
+        for _alias in _aliases:
+            if " " not in _alias and len(_alias) >= 4:
+                _TARGETS.setdefault(_alias, _field)
+
+
+def suggest_corrections(text, cutoff=0.8):
+    """Unknown words that look like a misspelled vocabulary word.
+
+    Returns [{"typed", "suggestion", "field"}], e.g. "Miltn" -> "milton" (brand).
+    Short words and ordinary English words are left alone, and a suggestion must
+    start with the same letter, to avoid wild guesses.
+    """
+    out, seen = [], set()
+    for token in _words(text):
+        if (len(token) < 4 or token in seen or token in COMMON_WORDS or token.isdigit()
+                or singular(token) in ALIAS_TOKENS):
+            continue
+        seen.add(token)
+        pool = [word for word in _TARGETS if word[0] == token[0]]
+        best = difflib.get_close_matches(token, pool, n=1, cutoff=cutoff)
+        if best:
+            out.append({"typed": token, "suggestion": best[0], "field": _TARGETS[best[0]]})
+    return out
+
+
+def apply_correction(text, typed, suggestion):
+    """Replace the misspelled word in the user's original text."""
+    return re.sub(rf"\b{re.escape(typed)}\b", suggestion, text, flags=re.IGNORECASE)
