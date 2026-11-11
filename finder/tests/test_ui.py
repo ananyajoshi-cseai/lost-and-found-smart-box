@@ -120,3 +120,14 @@ def test_results_clear_when_query_changes(tmp_path, monkeypatch):
     assert any('Item #' in s.value for s in app.subheader)
     app.text_input(key='query').input('keys').run()
     assert not any('Item #' in s.value for s in app.subheader)
+
+
+def test_ui_did_you_mean_button_fixes_the_query(tmp_path,monkeypatch):
+    app,_=setup_app(tmp_path,monkeypatch)
+    app.switch_page('views/search.py').run()
+    app.text_input(key='query').input('Miltn bottles').run()
+    assert any('Did you mean **Milton**' in m.value for m in app.markdown)
+    app.button(key='fix_miltn').click().run()
+    assert app.text_input(key='query').value=='milton bottles'
+    assert not any('Did you mean' in m.value for m in app.markdown)
+    assert not app.exception
