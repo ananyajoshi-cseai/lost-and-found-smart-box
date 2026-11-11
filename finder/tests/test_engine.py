@@ -109,7 +109,6 @@ def test_unavailable_exact_item_does_not_block_related_fallback():
 
 def test_published_parser_limits_remain_visible():
     # Documented limitations, not a claim of general language understanding.
-    assert parse('not a blue bottle')['excluded'] == {}
     assert parse('purple bottle')['positive'] == {'category': 'bottle'}
     assert rank(parse('purple bottle'), [ITEM])[0]['score'] == 100
 
@@ -121,3 +120,62 @@ def test_rank_is_repeatable_and_does_not_mutate_input():
     before = deepcopy((query, items))
     assert rank(query, items) == rank(query, items)
     assert (query, items) == before
+
+
+# --- plurals, slang, spelling suggestions, wider negation ---------------------
+
+@pytest.mark.parametrize('text,expected', [
+    ('bottles', 'bottle'), ('chargers', 'charger'), ('keys', 'keys'), ('key', 'keys'),
+    ('watches', 'watch'), ('wallets', 'wallet'), ('id cards', 'idcard'),
+])
+def test_plurals_and_singulars_match_same_category(text, expected):
+    assert parse(text)['positive'] == {'category': expected}
+
+
+@pytest.mark.parametrize('text,expected', [
+    ('bttl', 'bottle'), ('chgr', 'charger'), ('earbuds', 'earphones'),
+    ('specs', 'glasses'), ('shades', 'glasses'), ('bagpack', 'backpack'),
+])
+def test_slang_and_short_forms(text, expected):
+    assert parse(text)['positive'] == {'category': expected}
+
+
+def test_slang_colors_and_brand_forms():
+    assert parse('blk bttl')['positive'] == {'category': 'bottle', 'color': 'black'}
+    assert parse('ray ban specs')['positive'] == {'category': 'glasses', 'brand': 'rayban'}
+
+
+@pytest.mark.parametrize('text', ['not a blue bottle', 'not an navy bottle', 'no blue bottle',
+                                  'not the blue bottle', 'without a blue bottle'])
+def test_negation_reaches_past_articles(text):
+    q = parse(text)
+    assert q['excluded'] == {'color': ['blue']}
+    assert q['positive'] == {'category': 'bottle'}
+    assert rank(q, [ITEM]) == []
+    assert [r['id'] for r in rank(q, [{**ITEM, 'color': 'red'}])] == [101]
+
+
+def test_negation_does_not_leak_past_other_words():
+    q = parse('not lost blue bottle')
+    assert q['excluded'] == {} and q['positive']['color'] == 'blue'
+
+
+def test_spelling_suggestion_is_offered_not_applied():
+    from finder_core.engine import suggest_corrections, apply_correction
+    assert parse('Miltn bottle')['positive'] == {'category': 'bottle'}
+    fixes = suggest_corrections('Miltn bottle')
+    assert fixes == [{'typed': 'miltn', 'suggestion': 'milton', 'field': 'brand'}]
+    assert parse(apply_correction('Miltn bottle', 'miltn', 'milton'))['positive']['brand'] == 'milton'
+
+
+@pytest.mark.parametrize('text', ['navy Milton flask near the library', 'lost my keys',
+                                  'hello there', 'bottle left near hall', 'blue pen 2'])
+def test_no_false_spelling_suggestions(text):
+    from finder_core.engine import suggest_corrections
+    assert suggest_corrections(text) == []
+
+
+def test_common_typos_get_suggestions():
+    from finder_core.engine import suggest_corrections
+    got = {f['typed']: f['suggestion'] for f in suggest_corrections('bottel chrger umbrela')}
+    assert got == {'bottel': 'bottle', 'chrger': 'charger', 'umbrela': 'umbrella'}
