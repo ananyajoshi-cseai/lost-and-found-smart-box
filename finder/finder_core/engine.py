@@ -4,11 +4,9 @@ from .scoring import rank as _rank
 from .vague_matching import match_vague_description
 
 def parse_with_vague_matching(text):
-    """Parse normal attributes and detect vague item descriptions."""
-
     parsed = parse(text)
+    parsed["clarification_options"] = []
 
-    # Only look for vague descriptions if category is not already known.
     if "category" not in parsed["positive"]:
         matches = match_vague_description(text)
 
@@ -16,7 +14,10 @@ def parse_with_vague_matching(text):
             parsed["positive"]["category"] = matches[0]
 
         elif len(matches) > 1:
-            parsed["ambiguous"].append("category")
+            parsed["clarification_options"] = matches
+
+            if "category" not in parsed["ambiguous"]:
+                parsed["ambiguous"].append("category")
 
     return parsed
 
