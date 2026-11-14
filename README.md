@@ -54,6 +54,9 @@ The AI component uses **knowledge representation, deterministic parsing, breadth
 | **Synonym handling** | Maps phrases such as `navy` to `blue` and `flask` to `bottle`. |
 | **Plural handling** | Recognizes supported plurals such as `bottles`, `chargers`, `watches` and `id cards`. Both `key` and `keys` map to the stored category `keys`. |
 | **Slang and short forms** | Maps `bttl` to `bottle`, `chgr` to `charger`, `earbuds` to `earphones`, and `specs` to `glasses`; also accepts aliases such as `blk`, `wht`, `hstl` and `ray ban`. |
+| **Hinglish aliases** | Recognizes supported Roman-script words such as `neeli bottle`, `kaali chaabi` and `safed kalam` using the vocabulary dictionary. |
+| **Vague descriptions** | Recognizes listed phrases such as `something to drink from` (bottle) and `something to write with` (pen) when no category is already specified, excluded or ambiguous. |
+| **Category choices** | For `something to listen to music with`, asks **Which item do you mean?** with earphones/headphones options before ranking. |
 | **Spelling suggestions** | Offers “Did you mean Milton?” for `Miltn`; changes the query only when the user selects **Use Milton**. |
 | **Exclusions and clarification** | Handles `bottle not blue` and `not a blue bottle`; requests clarification for conflicts such as `red blue bottle`. |
 | **Explainable ranking** | Shows up to three candidates with scores, supplied-attribute coverage and a points table. |
@@ -65,7 +68,7 @@ The AI component uses **knowledge representation, deterministic parsing, breadth
 
 ## Demo screenshots
 
-Screenshots of the redesigned app with the 40 synthetic seed records, captured before the spelling-suggestion controls were added. The report and staff images show the forms before submission.
+Screenshots of the redesigned app with the 40 synthetic seed records, captured before the spelling-suggestion and category-clarification controls were added. The report and staff images show the forms before submission.
 
 ### Search by description
 
@@ -137,7 +140,9 @@ flowchart TD
     UI --> Report["Report Found Item page"]
     UI --> Staff["Staff return page"]
     subgraph Core["Python core"]
-        Parser["Parser: facts, exclusions, ambiguity"]
+        Parser["Base parser: facts, exclusions, ambiguity"]
+        Vague["Listed vague phrases and category choices"]
+        Query["Parsed query with optional inferred category"]
         Vocab["Canonical vocabulary and synonyms"]
         Ranker["Eligibility rules and weighted ranking"]
         BFS["Category ontology and BFS"]
@@ -146,12 +151,15 @@ flowchart TD
         Vocab --> Suggestions
         Vocab --> Parser
         Vocab --> Store
-        Parser --> Ranker
+        Parser --> Vague
+        Vague --> Query
+        Query --> Ranker
         BFS --> Ranker
     end
     Search --> Suggestions
     Suggestions -->|"Offer correction"| Search
     Search -->|"Current text, including accepted corrections"| Parser
+    Vague -->|"Multiple categories: ask user"| Search
     Search --> Store
     Store -->|"Item records"| Ranker
     Ranker --> Results["Top three candidates and explanations"]
@@ -165,6 +173,7 @@ flowchart TD
 | Integration point | Input | Output or effect |
 | --- | --- | --- |
 | `engine.parse(text)` | Description | `positive`, `excluded` and `ambiguous` fields |
+| `engine.parse_with_vague_matching(text)` | Description | Base parser fields plus `clarification_options`; adds one matched category or marks category ambiguity for multiple choices |
 | `engine.suggest_corrections(text, cutoff=0.8)` | Description | Suggestions containing `typed`, `suggestion` and `field`; does not change the query |
 | `engine.apply_correction(text, typed, suggestion)` | Description and an accepted suggestion | Replaces whole-word occurrences, ignoring case; returns revised text |
 | `engine.rank(query, items, broaden=False)` | Parsed query and records | Candidate IDs, scores, reasons and coverage |
@@ -180,7 +189,8 @@ flowchart TD
     B --> C["Save as available"]
     C --> D["Search by description"]
     D --> J["Review optional spelling suggestions"]
-    J --> E["Inspect interpreted facts and candidates"]
+    J --> K["Choose a category if requested"]
+    K --> E["Inspect interpreted facts and candidates"]
     E --> F["Verify ownership in person"]
     F --> G["Select item ID and confirm return"]
     G --> H["Save as returned"]
@@ -206,12 +216,25 @@ Negation recognizes `not`, `no` and `without`, optionally separated from a recog
 | `blk bttl` | `category=bottle`, `color=black` |
 | `ray ban specs` | `category=glasses`, `brand=rayban` |
 | `Miltn bottles` | Bottle initially; offers `milton`. Accepting **Use Milton** adds the brand to the parsed query. |
+| `neeli bottle` | `category=bottle`, `color=blue` |
+| `kaali chaabi` | `category=keys`, `color=black` |
+| `safed kalam` | `category=pen`, `color=white` |
+| `chargar` / `umbrela` | Direct dictionary aliases for `charger` / `umbrella`; no correction click needed |
+| `something to drink from` | Wrapper infers `category=bottle` |
+| `something to write with` | Wrapper infers `category=pen`; ignore the unrelated `write` → `white` spelling suggestion |
+| `something to listen to music with` | Wrapper offers `earphones` / `headphones`; choose one before ranking |
 | `red blue bottle` | Conflicting colors; clarification required |
 | `bottle not bottle` | Conflicting inclusion and exclusion; clarification required |
 
 Spelling suggestions are separate from parsing. `difflib.get_close_matches` compares unknown words against single-word aliases of at least four characters, using a default similarity cutoff of 0.8 and requiring the same first letter. Known words/plurals, numbers, short words and a small common-word list are skipped. The similarity cutoff is not an ownership confidence score.
 
 The Search page displays **Did you mean …?** and a **Use …** button. Accepting a suggestion updates the input and interpreted facts; select **Find matches** to search the revised description. Ignoring a suggestion leaves that unknown word out of the parsed facts.
+
+The Search page now calls `parse_with_vague_matching()`. It first runs the base parser, then checks the phrase dictionary only if category is absent from positive facts, exclusions and ambiguity. One matched category becomes a positive fact. Multiple categories populate `clarification_options` and mark category ambiguity; the UI asks the user to choose. An explicit category or category exclusion takes priority over this fallback.
+
+Vague matching uses case-insensitive, word-boundary phrase lookup across eight categories: bottle, pen, earphones, headphones, keys, umbrella, backpack and glasses. It does not infer arbitrary paraphrases or use embeddings. Inferred or selected categories contribute the usual 40 points and one coverage field, just like an explicitly named category.
+
+Hinglish support consists of listed Roman-script aliases, including color variants (`neela/neeli/nila/nili`, `kala/kaala/kaali`, `laal/lal`, `safed`, `hara/hari`, `sona/sunehra`) and categories (`chaabi/chabi/chabiyan/chabhi`, `kalam`, `copy`). This is dictionary normalization, not Hindi translation or general Hindi grammar support. Spellings such as `chargar`, `charjer`, `umbrela` and `umbrellah` are also direct aliases; there is no separate phonetic matching stage.
 
 ### 2. Select eligible candidates
 
@@ -257,7 +280,7 @@ BFS traverses parent and child links. Related candidates receive no category poi
 Score = 100 × matched supplied weight / total supplied positive weight
 ```
 
-Only positive attributes supplied in the query count toward the denominator.
+Only positive attributes in the parsed query count toward the denominator, including a category inferred from a listed vague phrase or selected during clarification. Exclusions do not contribute weight.
 
 **Example:** `navy Milton flask` supplies category, color and brand. A blue Milton bottle earns `(40 + 25 + 15) / 80 × 100 = 100`. A blue Cello bottle earns `(40 + 25 + 0) / 80 × 100 = 81.25`.
 
@@ -332,10 +355,11 @@ Run Streamlit from `finder/` so it loads the local configuration. The app binds 
 
 1. **Search:** enter `navy Milton flask`, check the interpreted facts and select **Find matches**. Read the points table and coverage.
 2. **Try the language helpers:** enter `Miltn bottles`, review **Did you mean Milton?**, select **Use Milton**, then **Find matches**. Try `blk bttl`, `not a blue bottle` and `red blue bottle` to see aliases, exclusion and clarification behavior.
-3. **Report:** open **Report Found Item**, choose the attributes, save and note the new item ID.
-4. **Find the report:** search for its attributes. Similar records may rank ahead of a newly saved item; the Staff selector lists all available IDs.
-5. **Record a return:** open **Staff — mark returned**, select the correct ID, verify the displayed details and complete the independent return check before confirming.
-6. **Check persistence:** search again to confirm that ID is excluded. Restart the app; the saved return should remain.
+3. **Try Hinglish and category choices:** search `neeli bottle` or `safed kalam`. Enter `something to listen to music with`, choose earphones or headphones under **Which item do you mean?**, then select **Find matches**.
+4. **Report:** open **Report Found Item**, choose the attributes, save and note the new item ID.
+5. **Find the report:** search for its attributes. Similar records may rank ahead of a newly saved item; the Staff selector lists all available IDs.
+6. **Record a return:** open **Staff — mark returned**, select the correct ID, verify the displayed details and complete the independent return check before confirming.
+7. **Check persistence:** search again to confirm that ID is excluded. Restart the app; the saved return should remain.
 
 For a fresh demo without changing existing data, stop the app and launch it with a new data filename from `finder/`:
 
@@ -383,9 +407,9 @@ Storage validates records, locks each read/update operation and replaces the JSO
 | --- | --- | --- | --- |
 | **Anika** | Knowledge and storage | Vocabulary and aliases, ontology, BFS, seed data quality, JSON validation and persistence | `vocabulary.py`, `ontology.py`, `storage.py`, `data/` |
 | **Ananya** | Reasoning and repository | Parser, exclusions and ambiguity rules, weighted ranking, explanations, integration tests and repository coordination | `parser.py`, `scoring.py`, `engine.py`, `tests/`, CI |
-| **Aashi** | Interface and evaluation | Streamlit pages and usability, demo flow, final labelled queries, evaluation analysis and presentation | `streamlit_app.py`, `views/`, `ui.py`, `evaluate.py`, `evaluation/` |
+| **Aashi** | Interface and evaluation | Streamlit pages and usability, demo flow, final labelled queries, evaluation analysis and presentation | `streamlit_app.py`, `views/`, `ui.py`, `vague_matching.py`, `evaluate.py`, `evaluation/` |
 
-Anika also implemented the plural handling, spelling suggestions, wider negation and expanded aliases, including Search-page integration and regression tests. Aashi's planned language additions are Hinglish vocabulary, vague-description interpretation and phonetic fallback; these are not yet implemented.
+Anika also implemented the plural handling, spelling suggestions, wider negation and expanded aliases, including Search-page integration and regression tests. Aashi added Hinglish aliases, a phrase dictionary for vague descriptions, the parsing wrapper and category-clarification controls in Search. The sounds-alike examples are supported as explicit aliases; a general phonetic fallback remains unimplemented.
 
 These are the team's areas of responsibility. Shared interfaces are reviewed together; final dataset review, usability checks and labelled evaluation remain team milestones.
 
@@ -417,11 +441,13 @@ From `finder/`:
 
 On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`. Use a new evaluation output filename for each run; the evaluator does not overwrite an existing result.
 
-The latest verified GitHub Actions run passed **103 tests** covering parsing, ranking, ontology traversal, storage and interface behavior ([run for commit `99a9c79`](https://github.com/ananyajoshi-cseai/lost-and-found-smart-box/actions/runs/43079083412)). Coverage includes supported plurals and aliases, negation through filler words, spelling suggestions, selected common-word cases and accepting a correction in the UI. GitHub Actions runs dependency validation and tests on every push and pull request.
+A local check of commit `67b97ff` on 14 November 2026 produced **102 passed, 1 failed** (103 tests total). `test_common_typos_get_suggestions` still expects `umbrela` → `umbrella` as a suggestion, but `umbrela` is now a recognized alias and is intentionally skipped by the suggestion function. The earlier [103-pass run for `99a9c79`](https://github.com/ananyajoshi-cseai/lost-and-found-smart-box/actions/runs/43079083412) predates these additions.
+
+The existing tests cover parsing, ranking, ontology, storage, plural/alias handling, negation and accepting spelling corrections. No new committed tests were added with the vague-matching changes. Separate review checks confirmed the main Hinglish examples and the earphones/headphones selection flow, but also identified the limitations listed below. GitHub Actions runs dependency validation and tests on every push and pull request.
 
 Integration checks also exercise every canonical value and alias, all 40 current seed records, related search for the newly connected categories, the proposal scoring example, and safe reads/updates of legacy records. These development checks are not an independently labelled accuracy evaluation.
 
-The evaluator uses the **20-item / 18-query frozen regression fixture**, separate from the app's 40 seed records. It reports top-1 and top-3 hits for positive queries and false positives for negative queries. Tests use temporary files, and the evaluator does not change runtime item data.
+The evaluator uses the **20-item / 18-query frozen regression fixture**, separate from the app's 40 seed records. It still calls the base `parse()` function, so it does not exercise vague matching or the clarification UI. At `67b97ff`, it returned 12/12 positive top-1 and top-3 hits, with 1/6 negative queries producing a false positive. These figures describe this fixed synthetic fixture only. It reports top-1 and top-3 hits for positive queries and false positives for negative queries. Tests use temporary files, and the evaluator does not change runtime item data.
 
 These checks establish repeatable behavior on synthetic examples. A separate final evaluation against the agreed dataset remains part of the team's work; regression results are not campus accuracy.
 
@@ -440,6 +466,7 @@ lost-and-found-smart-box/
     ├── finder_core/
     │   ├── engine.py            # Interface to parsing and ranking
     │   ├── parser.py            # Facts, plurals, negation and spelling suggestions
+    │   ├── vague_matching.py    # Listed description phrases and category candidates
     │   ├── vocabulary.py        # Canonical terms and aliases
     │   ├── ontology.py          # Category graph and BFS
     │   ├── scoring.py           # Eligibility and weighted ranking
@@ -459,8 +486,11 @@ lost-and-found-smart-box/
 - **Supported vocabulary:** categories, colors, brands, locations and marks are manually defined in `finder/finder_core/vocabulary.py`. Vocabulary extensions must remain compatible with the parser, storage and category graph. Unknown words are ignored unless a proposed spelling correction is accepted; `purple bottle` can still match bottles because `purple` is not recognized.
 - **Negation:** filler words are supported, but general sentence scope and conjunctions are not. `not a blue bottle` excludes blue; `not blue or red bottle` excludes blue but treats red as wanted. Use separate exclusions such as `bottle not blue not red` for that intent.
 - **Plural phrases:** `star sticker` is recognized as a star mark, but `star stickers` currently produces mark ambiguity. `not star stickers` excludes `star` while incorrectly retaining `sticker` as a positive mark. Use the supported singular phrase until this is resolved.
-- **Spelling suggestions:** character similarity can suggest the wrong word, such as `write` → `white`, or an abbreviation, such as `chargar` → `chargr`. Review suggestions before accepting. First-letter errors and short typos may receive no suggestion.
-- **Planned language support:** Hinglish terms such as `neela`, `kala` and `chaabi`, vague phrases such as `something to drink from`, and a separate sounds-alike algorithm are not implemented. `umbrela` can already receive an `umbrella` suggestion through spelling similarity.
+- **Spelling suggestions:** character similarity can suggest the wrong word, such as `write` → `white`, even when `something to write with` already resolves to pen. Review suggestions before accepting. First-letter errors and short typos may receive no suggestion.
+- **Vague phrase gaps:** missing commas currently concatenate several adjacent strings in `vague_matching.py`. Examples that do not resolve as intended include `writing instrument`, `something for writing`, `rain protection`, `something for rainy days`, `thing used for drinking water` and `something for drinking`.
+- **Vague negation:** the phrase fallback does not interpret negation; `not something to drink from` incorrectly adds bottle as a positive category. Use explicit category exclusions instead.
+- **Clarification messages:** if a description has both conflicting colors and multiple vague categories, selecting a category leaves the color conflict unresolved, but the UI still asks for an item choice. Rephrase the color as well.
+- **Language scope:** Hinglish support is limited to listed Roman-script terms and vague matching to listed phrases. A general sounds-alike algorithm, arbitrary semantic interpretation and Hindi-script parsing are not implemented.
 - **Returns:** the Staff page is an unauthenticated control for a supervised local demo. The app does not collect ownership proof or submit claims.
 - **Storage:** JSON is intended for this small local prototype. It is not a hosted multi-user database.
 - **Project scope:** text descriptions, explicit rules and a local UI. Hardware, image recognition, trained models and external inference services are outside this version.
