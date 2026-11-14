@@ -50,7 +50,7 @@ if searched:
     st.session_state['searched_signature'] = signature
 if st.session_state.get('searched_signature') == signature:
     if parsed['ambiguous']:
-        if parsed.get("clarification_options"):
+        if "category" in parsed["ambiguous"] and parsed.get("clarification_options"):
             st.warning("Please choose an item from the options above.")
         else:
             st.warning('Please clarify: '+', '.join(parsed['ambiguous']))

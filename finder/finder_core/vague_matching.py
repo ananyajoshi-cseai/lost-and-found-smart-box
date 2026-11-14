@@ -8,7 +8,7 @@ VAGUE_DESCRIPTIONS = {
         "something to drink water from",
         "something to store water",
         "water container",
-        "thing used for drinking water"
+        "thing used for drinking water",
          "something for drinking",
          "something to carry water",
          "container for water"
@@ -17,7 +17,7 @@ VAGUE_DESCRIPTIONS = {
     "pen": [
         "something to write with",
         "thing used for writing",
-        "writing instrument"
+        "writing instrument",
         "something for writing",
         "tool for writing",
         "used to write"
@@ -39,7 +39,7 @@ VAGUE_DESCRIPTIONS = {
     "keys": [
         "something to open a lock",
         "something to unlock a door",
-        "thing used to open doors"
+        "thing used to open doors",
         "something for unlocking",
         "used to unlock doors"
     ],
@@ -47,7 +47,7 @@ VAGUE_DESCRIPTIONS = {
     "umbrella": [
         "something to protect from rain",
         "something to use in rainy weather",
-        "rain protection"
+        "rain protection",
         "something for rainy days",
         "used during rain"
     ],
@@ -55,7 +55,7 @@ VAGUE_DESCRIPTIONS = {
     "backpack": [
         "something to carry books",
         "something to carry things",
-        "bag used to carry books"
+        "bag used to carry books",
         "something to carry my books",
         "something for carrying books"
     ],

@@ -178,4 +178,28 @@ def test_no_false_spelling_suggestions(text):
 def test_common_typos_get_suggestions():
     from finder_core.engine import suggest_corrections
     got = {f['typed']: f['suggestion'] for f in suggest_corrections('bottel chrger umbrela')}
-    assert got == {'bottel': 'bottle', 'chrger': 'charger', 'umbrela': 'umbrella'}
+    assert got == {'bottel': 'bottle', 'chrger': 'charger'}
+    assert parse('umbrela')['positive'] == {'category': 'umbrella'}
+
+
+@pytest.mark.parametrize('text,category', [
+    ('thing used for drinking water', 'bottle'),
+    ('something for drinking', 'bottle'),
+    ('writing instrument', 'pen'),
+    ('something for writing', 'pen'),
+    ('thing used to open doors', 'keys'),
+    ('something for unlocking', 'keys'),
+    ('rain protection', 'umbrella'),
+    ('something for rainy days', 'umbrella'),
+    ('bag used to carry books', 'backpack'),
+    ('something to carry my books', 'backpack'),
+])
+def test_restored_vague_phrases(text, category):
+    from finder_core.engine import parse_with_vague_matching
+    from finder_core.vague_matching import match_vague_description
+    assert match_vague_description(text) == [category]
+    query = parse_with_vague_matching(text)
+    assert query['positive']['category'] == category
+    assert not query['ambiguous']
+    result = rank(query, [{**ITEM, 'category': category}])[0]
+    assert result['score'] == 100 and result['coverage'] == 1

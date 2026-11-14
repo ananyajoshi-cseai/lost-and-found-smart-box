@@ -131,3 +131,16 @@ def test_ui_did_you_mean_button_fixes_the_query(tmp_path,monkeypatch):
     assert app.text_input(key='query').value=='milton bottles'
     assert not any('Did you mean' in m.value for m in app.markdown)
     assert not app.exception
+
+
+def test_vague_choice_preserves_remaining_color_conflict(tmp_path, monkeypatch):
+    app, _ = setup_app(tmp_path, monkeypatch)
+    text = 'red blue something to listen to music with'
+    app.text_input(key='query').input(text).run()
+    app.button(key='search').click().run()
+    assert any('Please choose an item' in w.value for w in app.warning)
+    app.selectbox(key=f'vague_choice_{text}').select('earphones').run()
+    app.button(key='search').click().run()
+    assert [w.value for w in app.warning] == ['Please clarify: color']
+    assert not any('Item #' in s.value for s in app.subheader)
+    assert not app.exception
