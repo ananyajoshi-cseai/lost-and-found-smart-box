@@ -7,7 +7,8 @@ def parse_with_vague_matching(text):
     parsed = parse(text)
     parsed["clarification_options"] = []
 
-    if "category" not in parsed["positive"]:
+    if ("category" not in parsed["positive"]
+        and "category" not in parsed["excluded"]):
         matches = match_vague_description(text)
 
         if len(matches) == 1:
