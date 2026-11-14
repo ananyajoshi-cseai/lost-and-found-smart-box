@@ -1,5 +1,5 @@
 import streamlit as st
-from finder_core.engine import parse, rank, suggest_corrections, apply_correction
+from finder_core.engine import parse_with_vague_matching, rank, suggest_corrections, apply_correction
 from finder_core.scoring import WEIGHTS
 from finder_core.ui import records
 from finder_core.dashboard import hero, metrics, facts_chips, bars, heatmap, score_bars, radar_svg
@@ -13,7 +13,7 @@ with st.container(border=True):
     st.subheader('Search for a lost item')
     text = st.text_input('Describe your item', placeholder='Try: navy Milton flask near the library', max_chars=300, key='query')
     broaden = st.checkbox('Include related categories', key='broaden', help='Explore nearby categories only when no eligible exact-category item exists.')
-    parsed = parse(text)
+    parsed = parse_with_vague_matching(text)
     def _accept(typed, suggestion):
         st.session_state['query'] = apply_correction(st.session_state.get('query', ''), typed, suggestion)
     for fix in suggest_corrections(text):
