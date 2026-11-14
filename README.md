@@ -441,9 +441,9 @@ From `finder/`:
 
 On macOS/Linux, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`. Use a new evaluation output filename for each run; the evaluator does not overwrite an existing result.
 
-A local check of commit `67b97ff` on 14 November 2026 produced **102 passed, 1 failed** (103 tests total). `test_common_typos_get_suggestions` still expects `umbrela` → `umbrella` as a suggestion, but `umbrela` is now a recognized alias and is intentionally skipped by the suggestion function. The earlier [103-pass run for `99a9c79`](https://github.com/ananyajoshi-cseai/lost-and-found-smart-box/actions/runs/43079083412) predates these additions.
+The local test suite passed **114 tests** on 14 November 2026 after restoring ten vague phrases and correcting the clarification warning. The spelling-suggestion test now verifies that `umbrela` is recognized directly as an umbrella alias, while genuine typos still receive suggestions.
 
-The existing tests cover parsing, ranking, ontology, storage, plural/alias handling, negation and accepting spelling corrections. No new committed tests were added with the vague-matching changes. Separate review checks confirmed the main Hinglish examples and the earphones/headphones selection flow, but also identified the limitations listed below. GitHub Actions runs dependency validation and tests on every push and pull request.
+The tests cover parsing, ranking, ontology, storage, plural/alias handling, negation and accepting spelling corrections. New regression checks cover the restored phrases through matching and ranking, and ensure that choosing a vague category still prompts for an unresolved color conflict. These checks do not establish general language understanding. GitHub Actions runs dependency validation and tests on every push and pull request.
 
 Integration checks also exercise every canonical value and alias, all 40 current seed records, related search for the newly connected categories, the proposal scoring example, and safe reads/updates of legacy records. These development checks are not an independently labelled accuracy evaluation.
 
@@ -487,9 +487,7 @@ lost-and-found-smart-box/
 - **Negation:** filler words are supported, but general sentence scope and conjunctions are not. `not a blue bottle` excludes blue; `not blue or red bottle` excludes blue but treats red as wanted. Use separate exclusions such as `bottle not blue not red` for that intent.
 - **Plural phrases:** `star sticker` is recognized as a star mark, but `star stickers` currently produces mark ambiguity. `not star stickers` excludes `star` while incorrectly retaining `sticker` as a positive mark. Use the supported singular phrase until this is resolved.
 - **Spelling suggestions:** character similarity can suggest the wrong word, such as `write` → `white`, even when `something to write with` already resolves to pen. Review suggestions before accepting. First-letter errors and short typos may receive no suggestion.
-- **Vague phrase gaps:** missing commas currently concatenate several adjacent strings in `vague_matching.py`. Examples that do not resolve as intended include `writing instrument`, `something for writing`, `rain protection`, `something for rainy days`, `thing used for drinking water` and `something for drinking`.
 - **Vague negation:** the phrase fallback does not interpret negation; `not something to drink from` incorrectly adds bottle as a positive category. Use explicit category exclusions instead.
-- **Clarification messages:** if a description has both conflicting colors and multiple vague categories, selecting a category leaves the color conflict unresolved, but the UI still asks for an item choice. Rephrase the color as well.
 - **Language scope:** Hinglish support is limited to listed Roman-script terms and vague matching to listed phrases. A general sounds-alike algorithm, arbitrary semantic interpretation and Hindi-script parsing are not implemented.
 - **Returns:** the Staff page is an unauthenticated control for a supervised local demo. The app does not collect ownership proof or submit claims.
 - **Storage:** JSON is intended for this small local prototype. It is not a hosted multi-user database.
