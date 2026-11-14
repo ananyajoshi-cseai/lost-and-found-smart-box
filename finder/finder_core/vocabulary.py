@@ -1,14 +1,30 @@
 
 VOCAB = {
     "category": {
-        "bottle":     ["bottle", "bttl", "btl", "flask", "water bottle"],
+        "bottle": [
+    "bottle",
+    "bttl",
+    "btl",
+    "flask",
+    "water bottle",
+    "paani ki bottle",
+    "pani ki bottle"
+],
         "notebook":   ["notebook", "nb", "note", "diary"],
         "pen":        ["pen", "pencil"],
         "charger":    ["charger", "chgr", "chargr", "adapter"],
         "earphones":  ["earphones", "earphone", "earbuds", "earbud", "buds", "pods", "airpods"],
         "headphones": ["headphones", "headphone", "headset"],
         "umbrella":   ["umbrella"],
-        "keys":       ["keys", "key", "keychain"],
+        "keys": [
+    "keys",
+    "key",
+    "keychain",
+    "chaabi",
+    "chabi",
+    "chabiyan",
+    "chabhi"
+],
         "wallet":     ["wallet", "purse"],
         "calculator": ["calculator", "calc"],
         "idcard":     ["idcard", "id card", "id", "badge"],
@@ -17,16 +33,52 @@ VOCAB = {
         "watch":      ["watch"],
     },
     "color": {
-        "blue":   ["blue", "navy", "navy blue", "dark blue", "light blue"],
-        "red":    ["red", "crimson", "maroon"],
-        "black":  ["black", "blk", "dark"],
+        "blue": [
+    "blue",
+    "navy",
+    "navy blue",
+    "dark blue",
+    "light blue",
+    "neela",
+    "neeli",
+    "nila",
+    "nili"
+],
+        "red": [
+    "red",
+    "crimson",
+    "maroon",
+    "laal",
+    "lal"
+],
+        "black": [
+    "black",
+    "blk",
+    "dark",
+    "kala",
+    "kaala",
+    "kaali"
+],
         "silver": ["silver", "slvr"],
         "grey":   ["grey", "gray", "gry"],
-        "white":  ["white", "wht"],
+        "white": [
+    "white",
+    "wht",
+    "safed"
+],
         "brown":  ["brown"],
-        "green":  ["green", "grn"],
+        "green": [
+    "green",
+    "grn",
+    "hara",
+    "hari"
+],
         "tan":    ["tan"],
-        "gold":   ["gold"],
+        "gold": [
+    "gold",
+    "sona",
+    "sunehra"
+],
     },
     "brand": {
         "milton":   ["milton"],
