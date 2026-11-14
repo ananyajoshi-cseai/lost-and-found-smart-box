@@ -14,6 +14,19 @@ with st.container(border=True):
     text = st.text_input('Describe your item', placeholder='Try: navy Milton flask near the library', max_chars=300, key='query')
     broaden = st.checkbox('Include related categories', key='broaden', help='Explore nearby categories only when no eligible exact-category item exists.')
     parsed = parse_with_vague_matching(text)
+     if parsed.get("clarification_options"):
+    choice = st.selectbox(
+        "Which item do you mean?",
+        ["Choose one"] + parsed["clarification_options"],
+        key=f"vague_choice_{text}"
+    )
+
+    if choice != "Choose one":
+        parsed["positive"]["category"] = choice
+        parsed["ambiguous"] = [
+            field for field in parsed["ambiguous"]
+            if field != "category"
+        ]
     def _accept(typed, suggestion):
         st.session_state['query'] = apply_correction(st.session_state.get('query', ''), typed, suggestion)
     for fix in suggest_corrections(text):
@@ -37,6 +50,9 @@ if searched:
     st.session_state['searched_signature'] = signature
 if st.session_state.get('searched_signature') == signature:
     if parsed['ambiguous']:
+    if parsed.get("clarification_options"):
+        st.warning("Please choose an item from the options above.")
+    else:
         st.warning('Please clarify: '+', '.join(parsed['ambiguous']))
     elif not parsed['positive']:
         st.info('Add a known category or color to search.')
