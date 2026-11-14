@@ -10,20 +10,13 @@ VOCAB = {
     "paani ki bottle",
     "pani ki bottle"
 ],
-        "notebook":   ["notebook", "nb", "note", "diary"],
-        "pen":        ["pen", "pencil"],
+        "notebook": ["notebook", "nb", "note", "diary", "copy"],
+        "pen": ["pen", "pencil", "kalam"],
         "charger": ["charger", "chgr", "chargr", "chargar", "charjer", "adapter"],
         "earphones":  ["earphones", "earphone", "earbuds", "earbud", "buds", "pods", "airpods"],
         "headphones": ["headphones", "headphone", "headset"],
         "umbrella": ["umbrella", "umbrela", "umbrellah"],
-        "keys": [
-    "keys",
-    "key",
-    "keychain",
-    "chaabi",
-    "chabi",
-    "chabiyan",
-    "chabhi"
+        "keys": [ "keys", "key", "keychain", "chaabi", "chabi", "chabiyan", "chabhi","chabiyan ka bunch"
 ],
         "wallet":     ["wallet", "purse"],
         "calculator": ["calculator", "calc"],
