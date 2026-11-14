@@ -12,10 +12,10 @@ VOCAB = {
 ],
         "notebook":   ["notebook", "nb", "note", "diary"],
         "pen":        ["pen", "pencil"],
-        "charger":    ["charger", "chgr", "chargr", "adapter"],
+        "charger": ["charger", "chgr", "chargr", "chargar", "charjer", "adapter"],
         "earphones":  ["earphones", "earphone", "earbuds", "earbud", "buds", "pods", "airpods"],
         "headphones": ["headphones", "headphone", "headset"],
-        "umbrella":   ["umbrella"],
+        "umbrella": ["umbrella", "umbrela", "umbrellah"],
         "keys": [
     "keys",
     "key",
