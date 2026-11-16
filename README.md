@@ -4,6 +4,7 @@
 
 **Describe it. Find possible matches. Verify ownership in person.**
 
+[![Live demo](https://img.shields.io/badge/Live_demo-Open_app-FF4B4B?logo=streamlit&logoColor=white)](https://campus-lost-and-found-finder.streamlit.app/)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![JSON](https://img.shields.io/badge/Storage-JSON-64748B?logo=json&logoColor=white)
@@ -11,6 +12,8 @@
 [![Finder tests](https://github.com/ananyajoshi-cseai/lost-and-found-smart-box/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/ananyajoshi-cseai/lost-and-found-smart-box/actions/workflows/tests.yml)
 
 A campus lost-and-found prototype that turns short descriptions into **explainable item matches** using explicit rules, a category ontology and weighted scoring.
+
+**Live app:** [campus-lost-and-found-finder.streamlit.app](https://campus-lost-and-found-finder.streamlit.app/)
 
 [Quick start](#quick-start) · [Demo](#demo-screenshots) · [System design](#system-design) · [Team](#team-and-work-division)
 
